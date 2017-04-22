@@ -4,6 +4,13 @@
 # Mark Rivers
 # March 9, 2008
 
+# Macros:
+# % macro, P, Device Prefix
+# % macro, R, Device Suffix
+# % macro, PORT, Asyn Port name
+# % macro, TIMEOUT, Timeout
+# % macro, ADDR, Asyn Port address
+
 include "NDArrayBase.template"
 
 ###################################################################

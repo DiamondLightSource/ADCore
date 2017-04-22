@@ -19,7 +19,7 @@ ifeq ($(WITH_BOOST),YES)
   ADTestUtility_SRCS += testingutilities.cpp
   ADTestUtility_SRCS += AsynPortClientContainer.cpp
   ADTestUtility_SRCS += AsynException.cpp
-  
+
   ifeq ($(WITH_HDF5),YES)
     ADTestUtility_SRCS += HDF5PluginWrapper.cpp
     ADTestUtility_SRCS += HDF5FileReader.cpp

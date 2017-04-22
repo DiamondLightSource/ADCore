@@ -5,6 +5,16 @@
 # Mark Rivers
 # May 10, 2009
 
+# Macros:
+# % macro, P, Device Prefix
+# % macro, R, Device Suffix
+# % macro, PORT, Asyn Port name
+# % macro, TIMEOUT, Timeout
+# % macro, ADDR, Asyn Port address
+
+# This associates the template with an edm screen
+# % gui, $(PORT), edmtab, NDFileJPEG.edl, P=$(P),R=$(R)
+
 include "NDFile.template"
 include "NDPluginBase.template"
 
@@ -48,3 +58,4 @@ record(longin, "$(P)$(R)JPEGQuality_RBV")
     field(HOPR, "100")
     field(SCAN, "I/O Intr")
 }
+

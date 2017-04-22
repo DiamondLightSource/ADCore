@@ -4,6 +4,16 @@
 # Mark Rivers
 # April 25, 2008
 
+# Macros:
+# % macro, P, Device Prefix
+# % macro, R, Device Suffix
+# % macro, PORT, Asyn Port name
+# % macro, TIMEOUT, Timeout
+# % macro, ADDR, Asyn Port address
+# % macro, NDARRAY_PORT, Input Array Port
+# % macro, NDARRAY_ADDR, Input Array Address
+# % macro, ENABLED, Plugin Enabled at startup?
+
 include "NDArrayBase.template"
 
 ###################################################################

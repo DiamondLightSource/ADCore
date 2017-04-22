@@ -3,6 +3,11 @@
 # Make sure we exit on any error
 set -e
 
+# Remove the RELEASE.linux-x86_64.Common file
+rm configure/RELEASE.local
+rm configure/RELEASE.linux-x86_64.Common
+rm configure/CONFIG_SITE.linux-x86_64.Common
+
 # Generate the configure/RELEASE.local and configure/CONFIG_SITE.linux-x86_64.Common
 # with the details of where to find various external libraries.
 echo "EPICS_BASE=/usr/lib/epics"             >> configure/RELEASE.local
