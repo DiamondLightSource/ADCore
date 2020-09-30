@@ -20,7 +20,7 @@ env:
 
 jobs:
   build-linux:
-    name: ${{ matrix.cmp }} / ${{ matrix.configuration }} / ${{ matrix.os }}
+    name: ${{ matrix.cmp }} / ${{ matrix.configuration }} / ${{ matrix.os }} / pvi=${{ matrix.pvi }}
     runs-on: ${{ matrix.os }}
     # Set environment variables from matrix parameters
     env:
@@ -34,6 +34,7 @@ jobs:
         os: [ubuntu-20.04]
         cmp: [gcc]
         configuration: [default]
+        pvi: [true, false]
     steps:
     - uses: actions/checkout@v2
       with:
@@ -42,6 +43,9 @@ jobs:
       run: python .ci/cue.py prepare
     - name: Gem install coveralls-lcov
       run: sudo gem install coveralls-lcov
+    - name: Install PVI
+      run: ci/install-pvi.sh
+      if: ${{ matrix.pvi == true }}
     - name: Configure packages
       run: sh ci/configure-packages.sh
       shell: bash
