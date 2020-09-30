@@ -58,6 +58,13 @@ jobs:
             base: "3.15"
             deps: os
 
+          - os: ubuntu-latest
+            cmp: gcc
+            configuration: default
+            base: "3.15"
+            deps: os
+            pvi: true
+
 #          - os: windows-2019
 #            cmp: vs2019
 #            configuration: default
@@ -153,6 +160,10 @@ jobs:
         WITH_BITSHUFFLE=YES
         BITSHUFFLE_EXTERNAL=NO
         EOF
+
+    - name: Install PVI
+      run: ci/install-pvi.sh
+      if: ${{ matrix.pvi == true }}
 
     - name: Build main module
       run: python .ci/cue.py build
