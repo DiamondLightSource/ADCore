@@ -1,6 +1,132 @@
 #=================================================================#
 # Template file: NDStats.template
 
+# Macros:
+# % macro, P, Device Prefix
+# % macro, R, Device Suffix
+# % macro, PORT, Asyn Port name
+# % macro, NCHANS, Number of channels
+# % macro, XSIZE, x size
+# % macro, YSIZE, y size
+# % macro, HIST_SIZE, hist size
+# % macro, ADDR, Asyn Port address
+# % macro, TIMEOUT, Timeout
+# % macro, TS_PORT, TS port
+
+# This associates the template with an edm screen
+# % gui, $(PORT), edmtab, NDStats.edl, P=$(P),R=$(R)
+
+# This associates a BOY screen with the template
+# % gui, $(PORT), boydetail,ADApp_opi/dls/stats_detail.opi, P=$(P), R=$(R), DESC=Statistics
+# % gui, $(PORT), boyembed, ADApp_opi/dls/stats_embed_box.opi, P=$(P), R=$(R), DESC=Statistics
+# % gui, $(PORT), boyembed, ADApp_opi/dls/stats_embed.opi, P=$(P), R=$(R), DESC=Statistics
+
+
+# % gui, $(PORT), groupHeading, Info
+# % gui, $(PORT), readback, Port name,   $(P)$(R)PortName_RBV
+# % gui, $(PORT), readback, Plugin type,   $(P)$(R)PluginType_RBV
+# Input
+# % gui, $(PORT), demandString, Input,   $(P)$(R)NDArrayPort
+# % gui, $(PORT), readback, Input,   $(P)$(R)NDArrayPort_RBV
+
+# % gui, $(PORT), groupHeading, Callback
+# % gui, $(PORT), enum, Callbacks,   $(P)$(R)EnableCallbacks
+# % gui, $(PORT), statusbits, Callbacks,   $(P)$(R)EnableCallbacks_RBV
+# % gui, $(PORT), demand, Min Callback Time,   $(P)$(R)MinCallbackTime
+# % gui, $(PORT), readback, Min Callback Time,   $(P)$(R)MinCallbackTime_RBV
+# % gui, $(PORT), enum, Block Callbacks,   $(P)$(R)BlockingCallbacks
+# % gui, $(PORT), statusbits, Block Callbacks,   $(P)$(R)BlockingCallbacks_RBV
+
+# % gui, $(PORT), groupHeading, Counters
+# % gui, $(PORT), demand, Array Counter,   $(P)$(R)ArrayCounter
+# % gui, $(PORT), readback, Array Counter,   $(P)$(R)ArrayCounter_RBV
+# % gui, $(PORT), readback, Array Rate (fps),   $(P)$(R)ArrayRate_RBV
+# % gui, $(PORT), readback, Queue Use,   $(P)$(R)QueueUse
+# % gui, $(PORT), readback, Queue Size,   $(P)$(R)QueueSize
+# % gui, $(PORT), demand, Dropped Arrays,   $(P)$(R)DroppedArrays
+# % gui, $(PORT), readback, Dropped Arrays,   $(P)$(R)DroppedArrays_RBV
+
+# % gui, $(PORT), groupHeading, Array Settings
+# % gui, $(PORT), readback, Num Dimensions,   $(P)$(R)NDimensions_RBV
+# % gui, $(PORT), readback, Dim 0 Size,   $(P)$(R)ArraySize0_RBV
+# % gui, $(PORT), readback, Dim 1 Size,   $(P)$(R)ArraySize1_RBV
+# % gui, $(PORT), readback, Dim 2 Size,   $(P)$(R)ArraySize2_RBV
+# % gui, $(PORT), readback, Input Data Type,   $(P)$(R)DataType_RBV
+# % gui, $(PORT), readback, Colour Mode,   $(P)$(R)ColorMode_RBV
+# % gui, $(PORT), readback, Bayer Pattern,   $(P)$(R)BayerPattern_RBV
+# % gui, $(PORT), readback, Unique id,   $(P)$(R)UniqueId_RBV
+# % gui, $(PORT), readback, Timestamp,   $(P)$(R)TimeStamp_RBV
+
+# Output
+# % gui, $(PORT), groupHeading, Output
+# % gui, $(PORT), demand, Name,   $(P)$(R)Name
+# % gui, $(PORT), enum, Out data type,   $(P)$(R)DataTypeOut
+# % gui, $(PORT), readback, Out data type,   $(P)$(R)DataTypeOut_RBV
+# % gui, $(PORT), demand, Attributes file,   $(P)$(R)NDAttributesFile
+
+# Statistics
+# % gui, $(PORT), groupHeading, Statistics
+# % gui, $(PORT), enum, Compute Statistics,   $(P)$(R)ComputeStatistics
+# % gui, $(PORT), statusbits, Compute Statistics,   $(P)$(R)ComputeStatistics_RBV
+# % gui, $(PORT), demand, Background Width,   $(P)$(R)BgdWidth
+# % gui, $(PORT), readback, Background Width,   $(P)$(R)BgdWidth_RBV
+# % gui, $(PORT), readback, Minimum Value,   $(P)$(R)MinValue_RBV
+# % gui, $(PORT), readback, Minimum X,   $(P)$(R)MinX_RBV
+# % gui, $(PORT), readback, Minimum Y,   $(P)$(R)MinY_RBV
+# % gui, $(PORT), readback, Maximum Value,   $(P)$(R)MaxValue_RBV
+# % gui, $(PORT), readback, Maximum X,   $(P)$(R)MaxX_RBV
+# % gui, $(PORT), readback, Maximum Y,   $(P)$(R)MaxY_RBV
+# % gui, $(PORT), readback, Mean Value,   $(P)$(R)MeanValue_RBV
+# % gui, $(PORT), readback, Total,   $(P)$(R)Total_RBV
+# % gui, $(PORT), readback, Sigma,   $(P)$(R)Sigma_RBV
+# % gui, $(PORT), readback, Net,   $(P)$(R)Net_RBV
+# Centroid
+# % gui, $(PORT), groupHeading, Centroid
+# % gui, $(PORT), enum, Compute Centroid,   $(P)$(R)ComputeCentroid
+# % gui, $(PORT), statusbits, Compute Centroid,   $(P)$(R)ComputeCentroid_RBV
+# % gui, $(PORT), demand, Threshold,   $(P)$(R)CentroidThreshold
+# % gui, $(PORT), readback, Threshold,   $(P)$(R)CentroidThreshold_RBV
+# % gui, $(PORT), readback, X,   $(P)$(R)CentroidX_RBV
+# % gui, $(PORT), readback, Sigma X,   $(P)$(R)SigmaX_RBV
+# % gui, $(PORT), readback, Y,   $(P)$(R)CentroidY_RBV
+# % gui, $(PORT), readback, Sigma Y,   $(P)$(R)SigmaY_RBV
+# % gui, $(PORT), readback, Sigma XY,   $(P)$(R)SigmaXY_RBV
+# Histogram
+# % gui, $(PORT), groupHeading, Histogram
+# % gui, $(PORT), enum, Compute Histogram,   $(P)$(R)ComputeHistogram
+# % gui, $(PORT), statusbits, Compute Histogram,   $(P)$(R)ComputeHistogram_RBV
+# % gui, $(PORT), demand, Histogram Size,   $(P)$(R)HistSize
+# % gui, $(PORT), readback, Histogram Size,   $(P)$(R)HistSize_RBV
+# % gui, $(PORT), demand, Histogram Min,   $(P)$(R)HistMin
+# % gui, $(PORT), readback, Histogram Min,   $(P)$(R)HistMin_RBV
+# % gui, $(PORT), demand, Histogram Max,   $(P)$(R)HistMax
+# % gui, $(PORT), readback, Histogram Max,   $(P)$(R)HistMax_RBV
+# % gui, $(PORT), readback, Histogram Entropy,   $(P)$(R)HistEntropy_RBV
+# Profiles
+# % gui, $(PORT), groupHeading, Profiles
+# % gui, $(PORT), enum, Compute Profiles,   $(P)$(R)ComputeProfiles
+# % gui, $(PORT), statusbits, Compute Profiles,   $(P)$(R)ComputeProfiles_RBV
+# % gui, $(PORT), demand, Cursor X,   $(P)$(R)CursorX
+# % gui, $(PORT), readback, Cursor X,   $(P)$(R)CursorX_RBV
+# % gui, $(PORT), demand, Cursor Y,   $(P)$(R)CursorY
+# % gui, $(PORT), readback, Cursor Y,   $(P)$(R)CursorY_RBV
+# % gui, $(PORT), readback, Size X,   $(P)$(R)ProfileSizeX_RBV
+# % gui, $(PORT), readback, Size Y,   $(P)$(R)ProfileSizeY_RBV
+# Time series
+# % gui, $(PORT), groupHeading, Time Series
+# % gui, $(PORT), enum, Time Control,   $(P)$(R)TS:TSAcquire
+# % gui, $(PORT), statusbits, Acquiring,   $(P)$(R)TS:TSAcquiring
+# % gui, $(PORT), readback, Current Point,   $(P)$(R)TS:TSCurrentPoint
+# % gui, $(PORT), demand, Number of Points,   $(P)$(R)TS:TSNumPoints
+# % gui, $(PORT), enum, Update,   $(P)$(R)TS:TSRead.SCAN
+# Memory
+# % gui, $(PORT), groupHeading, Memory
+# % gui, $(PORT), readback, Max memory,   $(P)$(R)PoolMaxMem
+# % gui, $(PORT), readback, Max buffers,   $(P)$(R)PoolMaxBuffers
+# % gui, $(PORT), readback, Used memory,   $(P)$(R)PoolUsedMem
+# % gui, $(PORT), readback, Allocated buffers,   $(P)$(R)PoolAllocBuffers
+# % gui, $(PORT), readback, Free buffers,   $(P)$(R)PoolFreeBuffers
+
 include "NDPluginBase.template"
 
 ###################################################################

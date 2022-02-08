@@ -5,6 +5,14 @@
 # Mark Rivers
 # May 10, 2009
 
+# Macros:
+# % macro, P, Device Prefix
+# % macro, R, Device Suffix
+# % macro, PORT, Asyn Port name
+
+# This associates the template with an edm screen
+# % gui, $(PORT), edmtab, NDFileNetCDF.edl, P=$(P),R=$(R)
+
 include "NDFile.template"
 include "NDPluginBase.template"
 

@@ -1,0 +1,44 @@
+# The following definitions must be changed for each site
+
+# These following four base definitions are overwritten by definitions in 
+# the RELEASE.<arch>.Common files. Included here for information only.
+# SUPPORT         = /dls_sw/prod/R3.14.12.7/support
+# WORK            = /dls_sw/work/R3.14.12.7/support
+# AREA_DETECTOR   = /dls_sw/work/R3.14.12.7/support
+# EPICS_BASE      = /dls_sw/epics/R3.14.12.7/base
+
+
+# Note:
+# asyn and synApps are assumed to be installed in a directory tree $(SUPPORT)
+# areaDetector is assumed to be installed in a directory tree $(AREA_DETECTOR)
+# EPICS base is assumed to be installed in a directory tree $(EPICS_BASE)
+# $(SUPPORT), $(AREA_DETECTOR), and $(EPICS_BASE) must be defined in RELEASE.local or
+# RELEASE.local.$(EPICS_HOST_ARCH).
+
+TEMPLATE_TOP = $(EPICS_BASE)/templates/makeBaseApp/top
+
+#AREA_DETECTOR = $(WORK)
+
+# ASYN is needed for base classes
+ASYN = $(SUPPORT)/asyn/4-41
+
+# BUSY is needed for busy record
+BUSY = $(SUPPORT)/busy/1-7-2dls5
+
+# SSCAN is needed for scanning threshold on Pilatus and general scanning
+SSCAN = $(SUPPORT)/sscan/2-11-3dls1
+
+# CALC is needed for the NDStats plugin
+CALC = $(SUPPORT)/calc/3-7-3
+
+# PVA Sources
+PVACCESSCPP       = $(SUPPORT)/pvAccessCPP/7-0-0
+PVDATABASECPP     = $(SUPPORT)/pvDatabaseCPP/4-5-0dls1
+PVDATACPP         = $(SUPPORT)/pvDataCPP/8-0-0
+NORMATIVETYPESCPP = $(SUPPORT)/normativeTypesCPP/6-0-0dls1
+
+# ADSupport is needed for Windows (contains HDF5 and other external libs)
+ADSUPPORT = $(SUPPORT)/ADSupport/1-9dls2
+
+# HDF5 Dynamic Filters for NDCodec
+HDF5_FILTERS = /dls_sw/prod/tools/RHEL7-x86_64/hdf5filters/0-7-0

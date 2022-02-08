@@ -2,6 +2,16 @@
 # Template file: NDFileNexus.template
 # Database for NDFileNexus driver, which saves files for NDArray data.
 
+# Macros:
+# % macro, P, Device Prefix
+# % macro, R, Device Suffix
+# % macro, PORT, Asyn Port name
+# % macro, TIMEOUT, Timeout
+# % macro, ADDR, Asyn Port address
+
+# This associates the template with an edm screen
+# % gui, $(PORT), edmtab, NDFileNexus.edl, P=$(P),R=$(R)
+
 include "NDFile.template"
 include "NDPluginBase.template"
 

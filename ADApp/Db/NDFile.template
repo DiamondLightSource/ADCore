@@ -5,6 +5,14 @@ include "asynNDArrayDriverParameters.template"
 # Mark Rivers
 # April 7, 2008
 
+# Macros:
+# % macro, P, Device Prefix
+# % macro, R, Device Suffix
+# % macro, PORT, Asyn Port name
+# % macro, TIMEOUT, Timeout
+# % macro, ADDR, Asyn Port address
+# % macro, SCANRATE, Chosen Scan Rate for cpu intensive PVs
+
 ###################################################################
 #  These records control file I/O                                 # 
 ###################################################################

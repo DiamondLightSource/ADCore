@@ -4,6 +4,123 @@
 # Mark Rivers
 # March 14, 2010
 
+# Macros:
+# % macro, P, Device Prefix
+# % macro, R, Device Suffix
+# % macro, PORT, Asyn Port name
+# % macro, TIMEOUT, Timeout
+# % macro, ADDR, Asyn Port address
+
+# This associates the template with an edm screen
+# % gui, $(PORT), edmtab, NDProcess.edl, P=$(P),R=$(R)
+
+# This associates a BOY screen with the template
+# % gui, $(PORT), boydetail,ADApp_opi/dls/proc_detail.opi, P=$(P), R=$(R), DESC=Process
+# % gui, $(PORT), boyembed, ADApp_opi/dls/proc_embed_box.opi, P=$(P), R=$(R), DESC=Process
+# % gui, $(PORT), boyembed, ADApp_opi/dls/proc_embed.opi, P=$(P), R=$(R), DESC=Process
+
+# % gui, $(PORT), groupHeading, Info
+# % gui, $(PORT), readback, Port name,   $(P)$(R)PortName_RBV
+# % gui, $(PORT), readback, Plugin type,   $(P)$(R)PluginType_RBV
+# Input
+# % gui, $(PORT), demandString, Input,   $(P)$(R)NDArrayPort
+# % gui, $(PORT), readback, Input,   $(P)$(R)NDArrayPort_RBV
+
+# % gui, $(PORT), groupHeading, Callback
+# % gui, $(PORT), enum, Callbacks,   $(P)$(R)EnableCallbacks
+# % gui, $(PORT), statusbits, Callbacks,   $(P)$(R)EnableCallbacks_RBV
+# % gui, $(PORT), demand, Min Callback Time,   $(P)$(R)MinCallbackTime
+# % gui, $(PORT), readback, Min Callback Time,   $(P)$(R)MinCallbackTime_RBV
+# % gui, $(PORT), enum, Block Callbacks,   $(P)$(R)BlockingCallbacks
+# % gui, $(PORT), statusbits, Block Callbacks,   $(P)$(R)BlockingCallbacks_RBV
+
+# % gui, $(PORT), groupHeading, Counters
+# % gui, $(PORT), demand, Array Counter,   $(P)$(R)ArrayCounter
+# % gui, $(PORT), readback, Array Counter,   $(P)$(R)ArrayCounter_RBV
+# % gui, $(PORT), readback, Array Rate (fps),   $(P)$(R)ArrayRate_RBV
+# % gui, $(PORT), readback, Queue Use,   $(P)$(R)QueueUse
+# % gui, $(PORT), readback, Queue Size,   $(P)$(R)QueueSize
+# % gui, $(PORT), demand, Dropped Arrays,   $(P)$(R)DroppedArrays
+# % gui, $(PORT), readback, Dropped Arrays,   $(P)$(R)DroppedArrays_RBV
+
+# % gui, $(PORT), groupHeading, Array Settings
+# % gui, $(PORT), readback, Num Dimensions,   $(P)$(R)NDimensions_RBV
+# % gui, $(PORT), readback, Dim 0 Size,   $(P)$(R)ArraySize0_RBV
+# % gui, $(PORT), readback, Dim 1 Size,   $(P)$(R)ArraySize1_RBV
+# % gui, $(PORT), readback, Dim 2 Size,   $(P)$(R)ArraySize2_RBV
+# % gui, $(PORT), readback, Input Data Type,   $(P)$(R)DataType_RBV
+# % gui, $(PORT), readback, Colour Mode,   $(P)$(R)ColorMode_RBV
+# % gui, $(PORT), readback, Bayer Pattern,   $(P)$(R)BayerPattern_RBV
+# % gui, $(PORT), readback, Unique id,   $(P)$(R)UniqueId_RBV
+# % gui, $(PORT), readback, Timestamp,   $(P)$(R)TimeStamp_RBV
+
+# Output
+# % gui, $(PORT), groupHeading, Output
+# % gui, $(PORT), demand, Name,   $(P)$(R)Name
+# % gui, $(PORT), enum, Out data type,   $(P)$(R)DataTypeOut
+# % gui, $(PORT), readback, Out data type,   $(P)$(R)DataTypeOut_RBV
+# % gui, $(PORT), demand, Attributes file,   $(P)$(R)NDAttributesFile
+
+# Background subtraction
+# % gui, $(PORT), groupHeading, Background Subtraction
+# % gui, $(PORT), enum, Enable Subtraction,   $(P)$(R)EnableBackground
+# % gui, $(PORT), readback, Enable Subtraction,   $(P)$(R)EnableBackground_RBV
+# % gui, $(PORT), command, Save Background,  $(P)$(R)SaveBackground
+# % gui, $(PORT), readback, Save Background,  $(P)$(R)SaveBackground_RBV
+# Flat field
+# % gui, $(PORT), groupHeading, Flat Field
+# % gui, $(PORT), enum, Enable Flat Field,   $(P)$(R)EnableFlatField
+# % gui, $(PORT), readback, Enable Flat Field,   $(P)$(R)EnableFlatField_RBV
+# % gui, $(PORT), command, Save Flat Field,  $(P)$(R)SaveFlatField
+# % gui, $(PORT), readback, Save Flat Field,  $(P)$(R)SaveFlatField_RBV
+# % gui, $(PORT), demand, Scale Flat Field,   $(P)$(R)ScaleFlatField
+# % gui, $(PORT), readback, Scale Flat Field,   $(P)$(R)ScaleFlatField_RBV
+# Scale and offset
+# % gui, $(PORT), groupHeading, Scale and Offset
+# % gui, $(PORT), enum, Enable Scale and Offset,   $(P)$(R)EnableOffsetScale
+# % gui, $(PORT), readback, Enable Scale and Offset,   $(P)$(R)EnableOffsetScale_RBV
+# % gui, $(PORT), demand, Offset,   $(P)$(R)Offset
+# % gui, $(PORT), readback, Offset,   $(P)$(R)Offset_RBV
+# % gui, $(PORT), demand, Scale,   $(P)$(R)Scale
+# % gui, $(PORT), readback, Scale,   $(P)$(R)Scale_RBV
+# % gui, $(PORT), enum, Enable Low Clip,   $(P)$(R)EnableLowClip
+# % gui, $(PORT), readback, Enable Low Clip,   $(P)$(R)EnableLowClip_RBV
+# % gui, $(PORT), demand, Low Clip,   $(P)$(R)LowClip
+# % gui, $(PORT), readback, Low Clip,   $(P)$(R)LowClip_RBV
+# % gui, $(PORT), enum, Enable High Clip,   $(P)$(R)EnableHighClip
+# % gui, $(PORT), readback, Enable High Clip,   $(P)$(R)EnableHighClip_RBV
+# % gui, $(PORT), demand, High Clip,   $(P)$(R)HighClip
+# % gui, $(PORT), readback, High Clip,   $(P)$(R)HighClip_RBV
+# Recursive filter
+# % gui, $(PORT), groupHeading, Recursive Filter
+# % gui, $(PORT), enum, Enable Filter,   $(P)$(R)EnableFilter
+# % gui, $(PORT), readback, Enable Filter,   $(P)$(R)EnableFilter_RBV
+# % gui, $(PORT), enum, Filter Type,   $(P)$(R)FilterType
+# % gui, $(PORT), demand, N Filter,   $(P)$(R)NumFilter
+# % gui, $(PORT), readback, N Filter,   $(P)$(R)NumFilter_RBV
+# % gui, $(PORT), readback, N Filtered,   $(P)$(R)NumFiltered_RBV
+# % gui, $(PORT), enum, Filter Callbacks,   $(P)$(R)FilterCallbacks
+# % gui, $(PORT), readback, Filter Callbacks,   $(P)$(R)FilterCallbacks_RBV
+# % gui, $(PORT), command, Reset,  $(P)$(R)ResetFilter
+# % gui, $(PORT), readback, Reset,  $(P)$(R)ResetFilter
+# % gui, $(PORT), enum, Auto Reset,   $(P)$(R)AutoResetFilter
+# % gui, $(PORT), readback, Auto Reset,   $(P)$(R)AutoResetFilter_RBV
+# % gui, $(PORT), demand, Output Scale,   $(P)$(R)OScale
+# % gui, $(PORT), readback, Output Scale,   $(P)$(R)OScale_RBV
+# % gui, $(PORT), demand, Output Offset,   $(P)$(R)OOffset
+# % gui, $(PORT), readback, Output Offset,   $(P)$(R)OOffset_RBV
+# % gui, $(PORT), demand, Filter Scale,   $(P)$(R)FScale
+# % gui, $(PORT), readback, Filter Scale,   $(P)$(R)FScale_RBV
+# % gui, $(PORT), demand, Filter Offset,   $(P)$(R)FOffset
+# % gui, $(PORT), readback, Filter Offset,   $(P)$(R)FOffset_RBV
+# Memory
+# % gui, $(PORT), groupHeading, Memory
+# % gui, $(PORT), readback, Max memory,   $(P)$(R)PoolMaxMem
+# % gui, $(PORT), readback, Max buffers,   $(P)$(R)PoolMaxBuffers
+# % gui, $(PORT), readback, Used memory,   $(P)$(R)PoolUsedMem
+# % gui, $(PORT), readback, Allocated buffers,   $(P)$(R)PoolAllocBuffers
+# % gui, $(PORT), readback, Free buffers,   $(P)$(R)PoolFreeBuffers
+
 include "NDPluginBase.template"
 
 ###################################################################

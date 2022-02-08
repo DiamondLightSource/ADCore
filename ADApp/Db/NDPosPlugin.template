@@ -8,6 +8,74 @@
 # This associates the template with an edm screen
 # % gui, $(PORT), edmtab, NDPosPlugin.edl, P=$(P),R=$(R)
 
+# This associates a BOY screen with the template
+# % gui, $(PORT), boydetail, ADApp_opi/dls/pos_detail.opi,    P=$(P), R=$(R), DESC=Position
+# % gui, $(PORT), boyembed,  ADApp_opi/dls/pos_embed_box.opi, P=$(P), R=$(R), DESC=Position
+# % gui, $(PORT), boyembed,  ADApp_opi/dls/pos_embed.opi,     P=$(P), R=$(R), DESC=Position
+
+# Info
+# % gui, $(PORT), groupHeading, Info
+# % gui, $(PORT), readback, Port name,   $(P)$(R)PortName_RBV
+# % gui, $(PORT), readback, Plugin type,   $(P)$(R)PluginType_RBV
+# Input
+# % gui, $(PORT), demandString, Input,   $(P)$(R)NDArrayPort
+# % gui, $(PORT), readback, Input,   $(P)$(R)NDArrayPort_RBV
+
+# % gui, $(PORT), groupHeading, Callback
+# % gui, $(PORT), enum, Callbacks,   $(P)$(R)EnableCallbacks
+# % gui, $(PORT), statusbits, Callbacks,   $(P)$(R)EnableCallbacks_RBV
+# % gui, $(PORT), demand, Min Callback Time,   $(P)$(R)MinCallbackTime
+# % gui, $(PORT), readback, Min Callback Time,   $(P)$(R)MinCallbackTime_RBV
+# % gui, $(PORT), enum, Block Callbacks,   $(P)$(R)BlockingCallbacks
+# % gui, $(PORT), statusbits, Block Callbacks,   $(P)$(R)BlockingCallbacks_RBV
+
+# % gui, $(PORT), groupHeading, Counters
+# % gui, $(PORT), demand, Array Counter,   $(P)$(R)ArrayCounter
+# % gui, $(PORT), readback, Array Counter,   $(P)$(R)ArrayCounter_RBV
+# % gui, $(PORT), readback, Array Rate (fps),   $(P)$(R)ArrayRate_RBV
+# % gui, $(PORT), readback, Queue Use,   $(P)$(R)QueueUse
+# % gui, $(PORT), readback, Queue Size,   $(P)$(R)QueueSize
+# % gui, $(PORT), demand, Dropped Arrays,   $(P)$(R)DroppedArrays
+# % gui, $(PORT), readback, Dropped Arrays,   $(P)$(R)DroppedArrays_RBV
+
+# % gui, $(PORT), groupHeading, Array Settings
+# % gui, $(PORT), readback, Num Dimensions,   $(P)$(R)NDimensions_RBV
+# % gui, $(PORT), readback, Dim 0 Size,   $(P)$(R)ArraySize0_RBV
+# % gui, $(PORT), readback, Dim 1 Size,   $(P)$(R)ArraySize1_RBV
+# % gui, $(PORT), readback, Dim 2 Size,   $(P)$(R)ArraySize2_RBV
+# % gui, $(PORT), readback, Input Data Type,   $(P)$(R)DataType_RBV
+# % gui, $(PORT), readback, Colour Mode,   $(P)$(R)ColorMode_RBV
+# % gui, $(PORT), readback, Bayer Pattern,   $(P)$(R)BayerPattern_RBV
+# % gui, $(PORT), readback, Unique id,   $(P)$(R)UniqueId_RBV
+# % gui, $(PORT), readback, Timestamp,   $(P)$(R)TimeStamp_RBV
+
+# % gui, $(PORT), groupHeading, Source File
+# % gui, $(PORT), demand,     Filename,           $(P)$(R)Filename
+# % gui, $(PORT), readback,   Filename,           $(P)$(R)Filename_RBV
+# % gui, $(PORT), statusbits, Filename valid,     $(P)$(R)FileValid_RBV
+
+# % gui, $(PORT), groupHeading, Position Control
+# % gui, $(PORT), enum,       Running,            $(P)$(R)Running
+# % gui, $(PORT), statusbits, Running,            $(P)$(R)Running_RBV
+# % gui, $(PORT), enum,       Mode,               $(P)$(R)Mode
+# % gui, $(PORT), readback,   No of positions,    $(P)$(R)Qty_RBV
+# % gui, $(PORT), command,    Delete positions,   $(P)$(R)Delete
+# % gui, $(PORT), readback,   Current index,      $(P)$(R)Index_RBV
+# % gui, $(PORT), readback,   Last sent position, $(P)$(R)Position_RBV
+
+# % gui, $(PORT), groupHeading, Frame Unique ID Monitoring
+# % gui, $(PORT), readback,   Missing frames,         $(P)$(R)Missing_RBV
+# % gui, $(PORT), command,    Missing frames reset,   $(P)$(R)Missing
+# % gui, $(PORT), readback,   Duplicate frames,       $(P)$(R)Duplicate_RBV
+# % gui, $(PORT), command,    Duplicate frames reset, $(P)$(R)Duplicate
+# % gui, $(PORT), readback,   Next expected ID,       $(P)$(R)ExpectedID_RBV
+# % gui, $(PORT), demand,     Name of ID att,         $(P)$(R)IDName
+# % gui, $(PORT), readback,   Name of ID att,         $(P)$(R)IDName_RBV
+# % gui, $(PORT), demand,     ID start value,         $(P)$(R)IDStart
+# % gui, $(PORT), readback,   ID start value,         $(P)$(R)IDStart_RBV
+# % gui, $(PORT), demand,     ID difference,          $(P)$(R)IDDifference
+# % gui, $(PORT), readback,   ID difference,          $(P)$(R)IDDifference_RBV
+
 include "NDPluginBase.template"
 
 # File path.
