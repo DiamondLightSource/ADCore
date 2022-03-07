@@ -132,10 +132,10 @@ parameters:
     read_record_suffix: AcquireBusyCB
     record_fields:
       SCAN: I/O Intr
-      ZNAM: Done
-      ONAM: Acquiring
       ZSV: NO_ALARM
       OSV: MINOR
+      ZNAM: Done
+      ONAM: Acquiring
 
   - type: AsynMultiBitBinary
     name: BayerPattern
@@ -332,10 +332,10 @@ parameters:
     record_fields:
       SCAN: I/O Intr
       FLNK: $(P)$(R)SetAcquireBusy
-      ZNAM: Done
-      ONAM: Acquiring
       ZSV: NO_ALARM
       OSV: MINOR
+      ZNAM: Done
+      ONAM: Acquiring
 
   - type: AsynLong
     name: NDimensions
@@ -425,10 +425,10 @@ parameters:
     initial: '1'
     record_fields:
       SCAN: I/O Intr
-      ZNAM: Disable
-      ONAM: Enable
       ZSV: NO_ALARM
       OSV: MINOR
+      ZNAM: Disable
+      ONAM: Enable
 
   - type: AsynBinary
     name: FilePathExists
@@ -438,10 +438,10 @@ parameters:
     access: R
     record_fields:
       SCAN: I/O Intr
-      ZNAM: No
-      ONAM: Yes
       ZSV: MAJOR
       OSV: NO_ALARM
+      ZNAM: No
+      ONAM: Yes
 
   - type: AsynWaveform
     name: FullFileName
@@ -472,10 +472,10 @@ parameters:
     read_record_suffix: WriteStatus
     record_fields:
       SCAN: I/O Intr
-      ZNAM: Write OK
-      ONAM: Write error
       ZSV: NO_ALARM
       OSV: MAJOR
+      ZNAM: Write OK
+      ONAM: Write error
 
   - type: AsynWaveform
     name: WriteMessage
@@ -566,10 +566,10 @@ parameters:
     drv_info: WRITE_FILE
     record_fields:
       SCAN: I/O Intr
-      ZNAM: Done
-      ONAM: Writing
       ZSV: NO_ALARM
       OSV: MINOR
+      ZNAM: Done
+      ONAM: Writing
 
   - type: AsynBusy
     name: ReadFile
@@ -578,10 +578,10 @@ parameters:
     drv_info: READ_FILE
     record_fields:
       SCAN: I/O Intr
-      ZNAM: Done
-      ONAM: Reading
       ZSV: NO_ALARM
       OSV: MINOR
+      ZNAM: Done
+      ONAM: Reading
 
   - type: AsynMultiBitBinary
     name: FileFormat
@@ -618,10 +618,10 @@ parameters:
     drv_info: CAPTURE
     record_fields:
       SCAN: I/O Intr
-      ZNAM: Done
-      ONAM: Capturing
       ZSV: NO_ALARM
       OSV: MINOR
+      ZNAM: Done
+      ONAM: Capturing
 
   - type: AsynLong
     name: NumCapture
