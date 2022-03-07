@@ -10,7 +10,7 @@
 #include <list>
 #include <string.h>
 #include <hdf5.h>
-#include <NDPluginFile.h>
+#include "NDPluginFile.h"
 #include <NDArray.h>
 #include "NDFileHDF5Layout.h"
 #include "NDFileHDF5Dataset.h"
