@@ -755,7 +755,15 @@ parameters:
     record_fields:
       SCAN: I/O Intr
       PREC: '1'
-
+  
+  - type: AsynLong
+    name: ExtraDimChunkN
+    description: ExtraDimChunkN
+    index_name: NDFileHDF5_extraDimChunkN
+    drv_info: HDF5_extraDimChunkN
+    record_fields:
+      SCAN: I/O Intr
+  
   - type: AsynLong
     name: ExtraDimChunkX
     description: ExtraDimChunkX
