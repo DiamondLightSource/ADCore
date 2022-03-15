@@ -11,6 +11,12 @@ include $(TOP)/configure/CONFIG
 # Create and install (or just install)
 # databases, templates, substitutions like this
 
+# General
+DB += NDArrayBase.template
+DB += ADBase.template
+DB += ADPrefixes.template
+DB += CCDMultiTrack.template
+
 # Regenerate template files from PVI YAML files if RULES_PVI exists
 PVI_TEMPLATES=YES
 -include $(PVI)/configure/RULES_PVI
@@ -51,6 +57,9 @@ DB += NDAttrPlotAttr.template
 DB += NDAttrPlotData.template
 DB += NDAttrPlot.template
 DB += NDCodec.template
+
+DB += asynNDArrayDriverParameters.template
+DB += ADDriverParameters.template
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add
