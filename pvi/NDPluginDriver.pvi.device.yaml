@@ -1,0 +1,128 @@
+label: NDPluginBase
+children:
+
+- type: Group
+  name: ComponentGroupOne
+  layout:
+    type: Grid
+  children:
+
+  - type: SignalW
+    name: ProcessPlugin
+    pv: ProcessPlugin
+    widget:
+      type: CheckBox
+
+  - type: SignalR
+    name: PluginType
+    pv: PluginType_RBV
+    widget:
+      type: TextRead
+
+  - type: SignalR
+    name: ExecutionTime
+    pv: ExecutionTime_RBV
+    widget:
+      type: TextRead
+
+  - type: SignalR
+    name: QueueFree
+    pv: QueueFree
+    widget:
+      type: TextRead
+
+  - type: SignalR
+    name: MaxThreads
+    pv: MaxThreads_RBV
+    widget:
+      type: TextRead
+
+  - type: SignalR
+    name: SortFree
+    pv: SortFree
+    widget:
+      type: TextRead
+
+  - type: SignalRW
+    name: NDArrayPort
+    pv: NDArrayPort
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: NDArrayAddress
+    pv: NDArrayAddress
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: EnableCallbacks
+    pv: EnableCallbacks
+    widget:
+      type: CheckBox
+
+  - type: SignalRW
+    name: MinCallbackTime
+    pv: MinCallbackTime
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: MaxByteRate
+    pv: MaxByteRate
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: BlockingCallbacks
+    pv: BlockingCallbacks
+    widget:
+      type: CheckBox
+
+  - type: SignalRW
+    name: DroppedArrays
+    pv: DroppedArrays
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: QueueSize
+    pv: QueueSize
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: NumThreads
+    pv: NumThreads
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: SortMode
+    pv: SortMode
+    widget:
+      type: ComboBox
+
+  - type: SignalRW
+    name: SortTime
+    pv: SortTime
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: SortSize
+    pv: SortSize
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: DroppedOutputArrays
+    pv: DroppedOutputArrays
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: DisorderedArrays
+    pv: DisorderedArrays
+    widget:
+      type: TextWrite

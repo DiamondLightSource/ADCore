@@ -1,0 +1,554 @@
+label: NDFileHDF5
+children:
+
+- type: Group
+  name: ComponentGroupOne
+  layout:
+    type: Grid
+  children:
+
+  - type: SignalW
+    name: FlushNow
+    pv: FlushNow
+    widget:
+      type: CheckBox
+
+  - type: SignalR
+    name: ExtraDimNameN
+    pv: ExtraDimNameN_RBV
+    widget:
+      type: TextRead
+
+  - type: SignalR
+    name: ExtraDimNameX
+    pv: ExtraDimNameX_RBV
+    widget:
+      type: TextRead
+
+  - type: SignalR
+    name: ExtraDimNameY
+    pv: ExtraDimNameY_RBV
+    widget:
+      type: TextRead
+
+  - type: SignalR
+    name: ExtraDimName3
+    pv: ExtraDimName3_RBV
+    widget:
+      type: TextRead
+
+  - type: SignalR
+    name: ExtraDimName4
+    pv: ExtraDimName4_RBV
+    widget:
+      type: TextRead
+
+  - type: SignalR
+    name: ExtraDimName5
+    pv: ExtraDimName5_RBV
+    widget:
+      type: TextRead
+
+  - type: SignalR
+    name: ExtraDimName6
+    pv: ExtraDimName6_RBV
+    widget:
+      type: TextRead
+
+  - type: SignalR
+    name: ExtraDimName7
+    pv: ExtraDimName7_RBV
+    widget:
+      type: TextRead
+
+  - type: SignalR
+    name: ExtraDimName8
+    pv: ExtraDimName8_RBV
+    widget:
+      type: TextRead
+
+  - type: SignalR
+    name: ExtraDimName9
+    pv: ExtraDimName9_RBV
+    widget:
+      type: TextRead
+
+  - type: SignalR
+    name: RunTime
+    pv: RunTime
+    widget:
+      type: TextRead
+
+  - type: SignalR
+    name: IOSpeed
+    pv: IOSpeed
+    widget:
+      type: TextRead
+
+  - type: SignalR
+    name: XMLErrorMsg
+    pv: XMLErrorMsg_RBV
+    widget:
+      type: TextRead
+
+  - type: SignalR
+    name: XMLValid
+    pv: XMLValid_RBV
+    widget:
+      type: LED
+
+  - type: SignalR
+    name: SWMRSupported
+    pv: SWMRSupported_RBV
+    widget:
+      type: LED
+
+  - type: SignalR
+    name: SWMRActive
+    pv: SWMRActive_RBV
+    widget:
+      type: LED
+
+  - type: SignalR
+    name: SWMRCbCounter
+    pv: SWMRCbCounter_RBV
+    widget:
+      type: TextRead
+
+  - type: SignalRW
+    name: ChunkSizeAuto
+    pv: ChunkSizeAuto
+    widget:
+      type: CheckBox
+
+  - type: SignalRW
+    name: NumRowChunks
+    pv: NumRowChunks
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: NumColChunks
+    pv: NumColChunks
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: ChunkSize2
+    pv: ChunkSize2
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: ChunkSize3
+    pv: ChunkSize3
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: ChunkSize4
+    pv: ChunkSize4
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: ChunkSize5
+    pv: ChunkSize5
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: ChunkSize6
+    pv: ChunkSize6
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: ChunkSize7
+    pv: ChunkSize7
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: ChunkSize8
+    pv: ChunkSize8
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: ChunkSize9
+    pv: ChunkSize9
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: NumFramesChunks
+    pv: NumFramesChunks
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: NDAttributeChunk
+    pv: NDAttributeChunk
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: BoundaryAlign
+    pv: BoundaryAlign
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: BoundaryThreshold
+    pv: BoundaryThreshold
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: NumExtraDims
+    pv: NumExtraDims
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: ExtraDimSizeN
+    pv: ExtraDimSizeN
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: ExtraDimSizeX
+    pv: ExtraDimSizeX
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: ExtraDimSizeY
+    pv: ExtraDimSizeY
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: ExtraDimSize3
+    pv: ExtraDimSize3
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: ExtraDimSize4
+    pv: ExtraDimSize4
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: ExtraDimSize5
+    pv: ExtraDimSize5
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: ExtraDimSize6
+    pv: ExtraDimSize6
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: ExtraDimSize7
+    pv: ExtraDimSize7
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: ExtraDimSize8
+    pv: ExtraDimSize8
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: ExtraDimSize9
+    pv: ExtraDimSize9
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: StoreAttr
+    pv: StoreAttr
+    widget:
+      type: CheckBox
+
+  - type: SignalRW
+    name: StorePerform
+    pv: StorePerform
+    widget:
+      type: CheckBox
+
+  - type: SignalRW
+    name: NumFramesFlush
+    pv: NumFramesFlush
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: Compression
+    pv: Compression
+    widget:
+      type: ComboBox
+
+  - type: SignalRW
+    name: NumDataBits
+    pv: NumDataBits
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: DataBitsOffset
+    pv: DataBitsOffset
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: SZipNumPixels
+    pv: SZipNumPixels
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: ZLevel
+    pv: ZLevel
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: BloscShuffle
+    pv: BloscShuffle
+    widget:
+      type: ComboBox
+
+  - type: SignalRW
+    name: BloscCompressor
+    pv: BloscCompressor
+    widget:
+      type: ComboBox
+
+  - type: SignalRW
+    name: BloscLevel
+    pv: BloscLevel
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: JPEGQuality
+    pv: JPEGQuality
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: DimAttDatasets
+    pv: DimAttDatasets
+    widget:
+      type: CheckBox
+
+  - type: SignalRW
+    name: XMLFileName
+    pv: XMLFileName
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: SWMRMode
+    pv: SWMRMode
+    widget:
+      type: CheckBox
+
+  - type: SignalRW
+    name: PositionMode
+    pv: PositionMode
+    widget:
+      type: CheckBox
+
+  - type: SignalRW
+    name: PosNameDimN
+    pv: PosNameDimN
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: PosNameDimX
+    pv: PosNameDimX
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: PosNameDimY
+    pv: PosNameDimY
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: PosNameDim3
+    pv: PosNameDim3
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: PosNameDim4
+    pv: PosNameDim4
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: PosNameDim5
+    pv: PosNameDim5
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: PosNameDim6
+    pv: PosNameDim6
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: PosNameDim7
+    pv: PosNameDim7
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: PosNameDim8
+    pv: PosNameDim8
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: PosNameDim9
+    pv: PosNameDim9
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: PosIndexDimN
+    pv: PosIndexDimN
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: PosIndexDimX
+    pv: PosIndexDimX
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: PosIndexDimY
+    pv: PosIndexDimY
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: PosIndexDim3
+    pv: PosIndexDim3
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: PosIndexDim4
+    pv: PosIndexDim4
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: PosIndexDim5
+    pv: PosIndexDim5
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: PosIndexDim6
+    pv: PosIndexDim6
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: PosIndexDim7
+    pv: PosIndexDim7
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: PosIndexDim8
+    pv: PosIndexDim8
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: PosIndexDim9
+    pv: PosIndexDim9
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: FillValue
+    pv: FillValue
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: ExtraDimChunkN
+    pv: ExtraDimChunkN
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: ExtraDimChunkX
+    pv: ExtraDimChunkX
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: ExtraDimChunkY
+    pv: ExtraDimChunkY
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: ExtraDimChunk3
+    pv: ExtraDimChunk3
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: ExtraDimChunk4
+    pv: ExtraDimChunk4
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: ExtraDimChunk5
+    pv: ExtraDimChunk5
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: ExtraDimChunk6
+    pv: ExtraDimChunk6
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: ExtraDimChunk7
+    pv: ExtraDimChunk7
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: ExtraDimChunk8
+    pv: ExtraDimChunk8
+    widget:
+      type: TextWrite
+
+  - type: SignalRW
+    name: ExtraDimChunk9
+    pv: ExtraDimChunk9
+    widget:
+      type: TextWrite
