@@ -133,21 +133,18 @@ def scanRateOverride(cls):
     return cls
 
 
-@scanRateOverride
 class ADBaseTemplate(AutoSubstitution):
     """Template containing the base records of any areaDetector driver"""
     TemplateFile = 'ADBase.template'
 
 #############################
 
-@scanRateOverride
 class NDPluginBaseTemplate(AutoSubstitution):
     """Template containing the base records of any areaDetector plugin"""
     TemplateFile = 'NDPluginBase.template'
 
 #############################
 
-@scanRateOverride
 class NDFileTemplate(AutoSubstitution):
     """Template containing the records of an areaDetector file writing plugin"""
     TemplateFile = 'NDFile.template'
