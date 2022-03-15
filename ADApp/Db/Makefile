@@ -60,6 +60,8 @@ DB += NDCodec.template
 
 DB += asynNDArrayDriverParameters.template
 DB += ADDriverParameters.template
+DB += NDPluginDriverParameters.template
+DB += NDFileHDF5Parameters.template
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add
