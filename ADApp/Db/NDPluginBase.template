@@ -7,6 +7,10 @@ include "NDPluginDriverParameters.template"
 
 include "NDArrayBase.template"
 
+
+#% macro, NDARRAY_PORT, NDArray port to connect to, $(NDARRAY_PORT)
+
+
 ###################################################################
 #  This record contains the type of plugin                        #
 ###################################################################
