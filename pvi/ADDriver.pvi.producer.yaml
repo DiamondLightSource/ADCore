@@ -152,10 +152,10 @@ parameters:
     access: R
     record_fields:
       SCAN: I/O Intr
-      ZNAM: Closed
-      ONAM: Open
       ZSV: NO_ALARM
       OSV: MINOR
+      ZNAM: Closed
+      ONAM: Open
 
   - type: AsynBinary
     name: ShutterControlEPICS
@@ -167,10 +167,10 @@ parameters:
     record_fields:
       SCAN: I/O Intr
       FLNK: $(P)$(R)ShutterFanout.PROC
-      ZNAM: Closed
-      ONAM: Open
       ZSV: NO_ALARM
       OSV: MINOR
+      ZNAM: Closed
+      ONAM: Open
 
   - type: AsynFloat64
     name: TemperatureActual
