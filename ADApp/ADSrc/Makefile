@@ -21,6 +21,9 @@ USR_CPPFLAGS += -DBUILDING_ADCore_API
 
 DBD += ADSupport.dbd
 
+# Regenerate param set files from PVI YAML files if RULES_PVI exists
+-include $(PVI)/configure/RULES_PVI
+
 INC += ADCoreAPI.h
 INC += ADCoreVersion.h
 INC += NDAttribute.h
@@ -30,7 +33,9 @@ INC += Codec.h
 INC += PVAttribute.h
 INC += paramAttribute.h
 INC += functAttribute.h
+INC += asynNDArrayDriverParamSet.h
 INC += asynNDArrayDriver.h
+INC += ADDriverParamSet.h
 INC += ADDriver.h
 INC += CCDMultiTrack.h
 
