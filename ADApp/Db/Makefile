@@ -11,6 +11,15 @@ include $(TOP)/configure/CONFIG
 # Create and install (or just install)
 # databases, templates, substitutions like this
 
+# Regenerate template files from PVI YAML files if RULES_PVI exists
+-include $(PVI)/configure/RULES_PVI
+
+# Explicitly define these so pvi can generate them
+DB += asynNDArrayDriverParameters.template
+DB += ADDriverParameters.template
+DB += NDPluginDriverParameters.template
+DB += NDPluginFileParameters.template
+DB += NDFileHDF5Parameters.template
 
 DB += $(patsubst ../%, %, $(wildcard ../*.template))
 DB += $(patsubst ../%, %, $(wildcard ../*.req))
