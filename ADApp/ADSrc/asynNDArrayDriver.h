@@ -60,7 +60,6 @@ typedef enum {
 
 
 /* The detector array data */
-#define NDArrayDataString       "ARRAY_DATA"        /**< (asynGenericPointer,   r/w) NDArray data */
 
 /* NDArray Pool status and control */
 #define NDPoolMaxBuffersString      "POOL_MAX_BUFFERS"
@@ -110,7 +109,6 @@ public:
 protected:
     asynNDArrayDriverParamSet* paramSet;
     #define FIRST_NDARRAY_PARAM paramSet->FIRST_ASYNNDARRAYDRIVERPARAMSET_PARAM
-    int NDArrayData;
     int NDPoolMaxBuffers;
 
     class NDArray **pArrays;             /**< An array of NDArray pointers used to store data in the driver */

@@ -3,6 +3,7 @@
 
 #include "asynParamSet.h"
 
+#define NDArrayDataString "ARRAY_DATA"
 #define ADWaitForPluginsString "WAIT_FOR_PLUGINS"
 #define NDPoolEmptyFreeListString "POOL_EMPTY_FREELIST"
 #define NDAttributesMacrosString "ND_ATTRIBUTES_MACROS"
@@ -65,6 +66,7 @@
 class asynNDArrayDriverParamSet : public virtual asynParamSet {
 public:
     asynNDArrayDriverParamSet() {
+        this->add(NDArrayDataString, asynParamGenericPointer, &NDArrayData);
         this->add(ADWaitForPluginsString, asynParamInt32, &ADWaitForPlugins);
         this->add(NDPoolEmptyFreeListString, asynParamInt32, &NDPoolEmptyFreeList);
         this->add(NDAttributesMacrosString, asynParamOctet, &NDAttributesMacros);
@@ -125,8 +127,9 @@ public:
         this->add(NDFileTempSuffixString, asynParamOctet, &NDFileTempSuffix);
     }
 
+    int NDArrayData;
+    #define FIRST_ASYNNDARRAYDRIVERPARAMSET_PARAM NDArrayData
     int ADWaitForPlugins;
-    #define FIRST_ASYNNDARRAYDRIVERPARAMSET_PARAM ADWaitForPlugins
     int NDPoolEmptyFreeList;
     int NDAttributesMacros;
     int NDAttributesFile;

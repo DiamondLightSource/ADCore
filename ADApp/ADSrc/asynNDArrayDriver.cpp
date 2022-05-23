@@ -871,7 +871,6 @@ asynNDArrayDriver::asynNDArrayDriver(asynNDArrayDriverParamSet* paramSet, const 
     this->pArrays = (NDArray **)calloc(maxAddr, sizeof(NDArray *));
     this->pAttributeList = new NDAttributeList();
 
-    createParam(NDArrayDataString,            asynParamGenericPointer,  &NDArrayData);
     createParam(NDPoolMaxBuffersString,       asynParamInt32,           &NDPoolMaxBuffers);
 
     /* Here we set the values of read-only parameters and of read/write parameters that cannot

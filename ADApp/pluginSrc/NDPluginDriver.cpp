@@ -121,7 +121,7 @@ NDPluginDriver::NDPluginDriver(NDPluginDriverParamSet* paramSet, const char *por
     pasynUser = pasynManager->createAsynUser(0, 0);
     pasynUser->userPvt = this;
     this->pasynUserGenericPointer_ = pasynUser;
-    this->pasynUserGenericPointer_->reason = NDArrayData;
+    this->pasynUserGenericPointer_->reason = paramSet->NDArrayData;
 
 
     /* Here we set the values of read-only parameters and of read/write parameters that cannot
@@ -294,7 +294,7 @@ asynStatus NDPluginDriver::endProcessCallbacks(NDArray *pArray, bool copyArray, 
             sortedNDArrayList_.insert(*pListElement);
         }
     } else {
-        doCallbacksGenericPointer(pArrayOut, NDArrayData, 0);
+        doCallbacksGenericPointer(pArrayOut, paramSet->NDArrayData, 0);
         if (!firstOutputArray_ && !orderOK) {
             int disorderedArrays;
             getIntegerParam(paramSet->NDPluginDriverDisorderedArrays, &disorderedArrays);
@@ -625,7 +625,7 @@ void NDPluginDriver::sortingTask()
             orderOK = (pListElement->pArray_->uniqueId == prevUniqueId_)   ||
                       (pListElement->pArray_->uniqueId == prevUniqueId_+1);
             if ((!firstOutputArray_ && orderOK) || (deltaTime > sortTime)) {
-                doCallbacksGenericPointer(pListElement->pArray_, NDArrayData, 0);
+                doCallbacksGenericPointer(pListElement->pArray_, paramSet->NDArrayData, 0);
                 if (!firstOutputArray_ && !orderOK) {
                     int disorderedArrays;
                     getIntegerParam(paramSet->NDPluginDriverDisorderedArrays, &disorderedArrays);
