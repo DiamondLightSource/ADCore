@@ -22,6 +22,7 @@ endif
 USR_CPPFLAGS += -DBUILDING_NDPlugin_API
 
 INC      += NDPluginAPI.h
+INC      += NDPluginDriverParamSet.h
 INC      += NDPluginDriver.h
 LIB_SRCS += NDPluginDriver.cpp
 LIB_SRCS += throttler.cpp
@@ -108,6 +109,7 @@ INC      += NDPosPluginFileReader.h
 LIB_SRCS += NDPosPlugin.cpp
 LIB_SRCS += NDPosPluginFileReader.cpp
 
+INC      += NDPluginFileParamSet.h
 INC      += NDPluginFile.h
 LIB_SRCS += NDPluginFile.cpp
 
@@ -129,6 +131,7 @@ endif
 
 ifeq ($(WITH_HDF5),YES)
   DBD      += NDFileHDF5.dbd
+  INC      += NDFileHDF5ParamSet.h
   INC      += NDFileHDF5.h
   INC      += NDFileHDF5Dataset.h
   INC      += NDFileHDF5AttributeDataset.h
