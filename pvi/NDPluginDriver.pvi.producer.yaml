@@ -8,18 +8,10 @@ parent: asynNDArrayDriver
 parameters:
 
 - type: Group
-  name: ComponentGroupOne
+  name: NDPluginBase
   layout:
     type: Grid
   children:
-
-  - type: AsynBinary
-    name: ProcessPlugin
-    description: ProcessPlugin
-    index_name: NDPluginDriverProcessPlugin
-    drv_info: PROCESS_PLUGIN
-    access: W
-    initial: '1'
 
   - type: AsynString
     name: PluginType
@@ -29,54 +21,6 @@ parameters:
     access: R
     record_fields:
       SCAN: I/O Intr
-
-  - type: AsynFloat64
-    name: ExecutionTime
-    description: ExecutionTime_RBV
-    index_name: NDPluginDriverExecutionTime
-    drv_info: EXECUTION_TIME
-    access: R
-    record_fields:
-      SCAN: I/O Intr
-      PREC: '3'
-      EGU: ms
-
-  - type: AsynLong
-    name: QueueFree
-    description: QueueFree
-    index_name: NDPluginDriverQueueFree
-    drv_info: QUEUE_FREE
-    access: R
-    read_record_suffix: QueueFree
-    record_fields:
-      SCAN: $(SCANRATE=I/O Intr)
-      LOLO: '0'
-      LLSV: MAJOR
-      LSV: MINOR
-      HYST: '1'
-
-  - type: AsynLong
-    name: MaxThreads
-    description: MaxThreads_RBV
-    index_name: NDPluginDriverMaxThreads
-    drv_info: MAX_THREADS
-    access: R
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynLong
-    name: SortFree
-    description: SortFree
-    index_name: NDPluginDriverSortFree
-    drv_info: SORT_FREE
-    access: R
-    read_record_suffix: SortFree
-    record_fields:
-      SCAN: I/O Intr
-      LOLO: '0'
-      LLSV: MAJOR
-      LSV: MINOR
-      HYST: '1'
 
   - type: AsynString
     name: NDArrayPort
@@ -121,6 +65,72 @@ parameters:
       EGU: s
       DRVL: '0'
 
+  - type: AsynLong
+    name: QueueFree
+    description: QueueFree
+    index_name: NDPluginDriverQueueFree
+    drv_info: QUEUE_FREE
+    access: R
+    read_record_suffix: QueueFree
+    record_fields:
+      SCAN: $(SCANRATE=I/O Intr)
+      LOLO: '0'
+      LLSV: MAJOR
+      LSV: MINOR
+      HYST: '1'
+
+  - type: AsynLong
+    name: QueueSize
+    description: QueueSize
+    index_name: NDPluginDriverQueueSize
+    drv_info: QUEUE_SIZE
+    record_fields:
+      SCAN: I/O Intr
+      FLNK: $(P)$(R)QueueFreeLow
+
+  - type: AsynFloat64
+    name: ExecutionTime
+    description: ExecutionTime_RBV
+    index_name: NDPluginDriverExecutionTime
+    drv_info: EXECUTION_TIME
+    access: R
+    record_fields:
+      SCAN: I/O Intr
+      PREC: '3'
+      EGU: ms
+
+  - type: AsynLong
+    name: DroppedArrays
+    description: DroppedArrays
+    index_name: NDPluginDriverDroppedArrays
+    drv_info: DROPPED_ARRAYS
+    initial: '0'
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynBinary
+    name: ProcessPlugin
+    description: ProcessPlugin
+    index_name: NDPluginDriverProcessPlugin
+    drv_info: PROCESS_PLUGIN
+    access: W
+    initial: '1'
+
+- type: Group
+  name: NDPluginBaseFull
+  layout:
+    type: Grid
+  children:
+
+  - type: AsynLong
+    name: DroppedOutputArrays
+    description: DroppedOutputArrays
+    index_name: NDPluginDriverDroppedOutputArrays
+    drv_info: DROPPED_OUTPUT_ARRAYS
+    initial: '0'
+    record_fields:
+      SCAN: I/O Intr
+
   - type: AsynFloat64
     name: MaxByteRate
     description: MaxByteRate
@@ -145,29 +155,20 @@ parameters:
       ONAM: Yes
 
   - type: AsynLong
-    name: DroppedArrays
-    description: DroppedArrays
-    index_name: NDPluginDriverDroppedArrays
-    drv_info: DROPPED_ARRAYS
-    initial: '0'
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynLong
-    name: QueueSize
-    description: QueueSize
-    index_name: NDPluginDriverQueueSize
-    drv_info: QUEUE_SIZE
-    record_fields:
-      SCAN: I/O Intr
-      FLNK: $(P)$(R)QueueFreeLow
-
-  - type: AsynLong
     name: NumThreads
     description: NumThreads
     index_name: NDPluginDriverNumThreads
     drv_info: NUM_THREADS
     initial: '1'
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynLong
+    name: MaxThreads
+    description: MaxThreads_RBV
+    index_name: NDPluginDriverMaxThreads
+    drv_info: MAX_THREADS
+    access: R
     record_fields:
       SCAN: I/O Intr
 
@@ -194,6 +195,20 @@ parameters:
       PREC: '3'
 
   - type: AsynLong
+    name: SortFree
+    description: SortFree
+    index_name: NDPluginDriverSortFree
+    drv_info: SORT_FREE
+    access: R
+    read_record_suffix: SortFree
+    record_fields:
+      SCAN: I/O Intr
+      LOLO: '0'
+      LLSV: MAJOR
+      LSV: MINOR
+      HYST: '1'
+
+  - type: AsynLong
     name: SortSize
     description: SortSize
     index_name: NDPluginDriverSortSize
@@ -202,15 +217,6 @@ parameters:
     record_fields:
       SCAN: I/O Intr
       FLNK: $(P)$(R)SortFreeLow
-
-  - type: AsynLong
-    name: DroppedOutputArrays
-    description: DroppedOutputArrays
-    index_name: NDPluginDriverDroppedOutputArrays
-    drv_info: DROPPED_OUTPUT_ARRAYS
-    initial: '0'
-    record_fields:
-      SCAN: I/O Intr
 
   - type: AsynLong
     name: DisorderedArrays
