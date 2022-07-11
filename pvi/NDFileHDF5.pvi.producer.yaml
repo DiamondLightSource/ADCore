@@ -8,10 +8,110 @@ parent: NDPluginFile
 parameters:
 
 - type: Group
-  name: ComponentGroupOne
+  name: NDFileHDF5
   layout:
     type: Grid
   children:
+
+  - type: AsynMultiBitBinary
+    name: Compression
+    description: Compression
+    index_name: NDFileHDF5_compressionType
+    drv_info: HDF5_compressionType
+    record_fields:
+      SCAN: I/O Intr
+      ZRVL: '0'
+      ONVL: '1'
+      TWVL: '2'
+      THVL: '3'
+      FRVL: '4'
+      FVVL: '5'
+      SXVL: '6'
+      SVVL: '7'
+      ZRST: None
+      ONST: N-bit
+      TWST: szip
+      THST: zlib
+      FRST: Blosc
+      FVST: BSLZ4
+      SXST: LZ4
+      SVST: JPEG
+
+  - type: AsynBinary
+    name: SWMRSupported
+    description: SWMRSupported_RBV
+    index_name: NDFileHDF5_SWMRSupported
+    drv_info: HDF5_SWMRSupported
+    access: R
+    record_fields:
+      SCAN: I/O Intr
+      ZNAM: Not Supported
+      ONAM: Supported
+
+  - type: AsynLong
+    name: NumDataBits
+    description: NumDataBits
+    index_name: NDFileHDF5_nbitsPrecision
+    drv_info: HDF5_nbitsPrecision
+    record_fields:
+      SCAN: I/O Intr
+      EGU: bit
+
+  - type: AsynLong
+    name: DataBitsOffset
+    description: DataBitsOffset
+    index_name: NDFileHDF5_nbitsOffset
+    drv_info: HDF5_nbitsOffset
+    record_fields:
+      SCAN: I/O Intr
+      EGU: bit
+
+  - type: AsynBinary
+    name: SWMRMode
+    description: SWMRMode
+    index_name: NDFileHDF5_SWMRMode
+    drv_info: HDF5_SWMRMode
+    record_fields:
+      SCAN: I/O Intr
+      ZNAM: Off
+      ONAM: On
+
+  - type: AsynBinary
+    name: SWMRActive
+    description: SWMRActive_RBV
+    index_name: NDFileHDF5_SWMRRunning
+    drv_info: HDF5_SWMRRunning
+    access: R
+    record_fields:
+      SCAN: I/O Intr
+      ZNAM: Off
+      ONAM: Active
+
+  - type: AsynLong
+    name: SZipNumPixels
+    description: SZipNumPixels
+    index_name: NDFileHDF5_szipNumPixels
+    drv_info: HDF5_szipNumPixels
+    record_fields:
+      SCAN: I/O Intr
+      EGU: bit
+
+  - type: AsynLong
+    name: SWMRCbCounter
+    description: SWMRCbCounter_RBV
+    index_name: NDFileHDF5_SWMRCbCounter
+    drv_info: HDF5_SWMRCbCounter
+    access: R
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynLong
+    name: ZLevel
+    description: ZLevel
+    index_name: NDFileHDF5_zCompressLevel
+    drv_info: HDF5_zCompressLevel
+    record_fields:
+      SCAN: I/O Intr
 
   - type: AsynBusy
     name: FlushNow
@@ -23,93 +123,75 @@ parameters:
       ZNAM: Done
       ONAM: Flush
 
-  - type: AsynString
-    name: ExtraDimNameN
-    description: ExtraDimNameN_RBV
-    index_name: NDFileHDF5_extraDimNameN
-    drv_info: HDF5_extraDimNameN
-    access: R
+  - type: AsynLong
+    name: JPEGQuality
+    description: JPEGQuality
+    index_name: NDFileHDF5_jpegQuality
+    drv_info: HDF5_jpegQuality
+    initial: '90'
+    record_fields:
+      SCAN: I/O Intr
+      DRVH: '100'
+      DRVL: '1'
+
+  - type: AsynBinary
+    name: ChunkSizeAuto
+    description: ChunkSizeAuto
+    index_name: NDFileHDF5_chunkSizeAuto
+    drv_info: HDF5_chunkSizeAuto
+    initial: '1'
+    record_fields:
+      SCAN: I/O Intr
+      ZNAM: No
+      ONAM: Yes
+
+  - type: AsynBinary
+    name: StorePerform
+    description: StorePerform
+    index_name: NDFileHDF5_storePerformance
+    drv_info: HDF5_storePerformance
+    record_fields:
+      SCAN: I/O Intr
+      ZNAM: No
+      ONAM: Yes
+
+  - type: AsynLong
+    name: NumColChunks
+    description: NumColChunks
+    index_name: NDFileHDF5_nColChunks
+    drv_info: HDF5_nColChunks
     record_fields:
       SCAN: I/O Intr
 
-  - type: AsynString
-    name: ExtraDimNameX
-    description: ExtraDimNameX_RBV
-    index_name: NDFileHDF5_extraDimNameX
-    drv_info: HDF5_extraDimNameX
-    access: R
+  - type: AsynBinary
+    name: StoreAttr
+    description: StoreAttr
+    index_name: NDFileHDF5_storeAttributes
+    drv_info: HDF5_storeAttributes
     record_fields:
       SCAN: I/O Intr
+      ZNAM: No
+      ONAM: Yes
 
-  - type: AsynString
-    name: ExtraDimNameY
-    description: ExtraDimNameY_RBV
-    index_name: NDFileHDF5_extraDimNameY
-    drv_info: HDF5_extraDimNameY
-    access: R
+  - type: AsynMultiBitBinary
+    name: BloscShuffle
+    description: BloscShuffle
+    index_name: NDFileHDF5_bloscShuffleType
+    drv_info: HDF5_bloscShuffleType
     record_fields:
       SCAN: I/O Intr
+      ZRVL: '0'
+      ONVL: '1'
+      TWVL: '2'
+      ZRST: None
+      ONST: Byte
+      TWST: Bit
 
-  - type: AsynString
-    name: ExtraDimName3
-    description: ExtraDimName3_RBV
-    index_name: NDFileHDF5_extraDimName3
-    drv_info: HDF5_extraDimName3
-    access: R
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynString
-    name: ExtraDimName4
-    description: ExtraDimName4_RBV
-    index_name: NDFileHDF5_extraDimName4
-    drv_info: HDF5_extraDimName4
-    access: R
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynString
-    name: ExtraDimName5
-    description: ExtraDimName5_RBV
-    index_name: NDFileHDF5_extraDimName5
-    drv_info: HDF5_extraDimName5
-    access: R
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynString
-    name: ExtraDimName6
-    description: ExtraDimName6_RBV
-    index_name: NDFileHDF5_extraDimName6
-    drv_info: HDF5_extraDimName6
-    access: R
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynString
-    name: ExtraDimName7
-    description: ExtraDimName7_RBV
-    index_name: NDFileHDF5_extraDimName7
-    drv_info: HDF5_extraDimName7
-    access: R
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynString
-    name: ExtraDimName8
-    description: ExtraDimName8_RBV
-    index_name: NDFileHDF5_extraDimName8
-    drv_info: HDF5_extraDimName8
-    access: R
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynString
-    name: ExtraDimName9
-    description: ExtraDimName9_RBV
-    index_name: NDFileHDF5_extraDimName9
-    drv_info: HDF5_extraDimName9
-    access: R
+  - type: AsynLong
+    name: NumRowChunks
+    description: NumRowChunks
+    index_name: NDFileHDF5_nRowChunks
+    drv_info: HDF5_nRowChunks
     record_fields:
       SCAN: I/O Intr
 
@@ -125,6 +207,34 @@ parameters:
       PREC: '3'
       EGU: s
 
+  - type: AsynMultiBitBinary
+    name: BloscCompressor
+    description: BloscCompressor
+    index_name: NDFileHDF5_bloscCompressor
+    drv_info: HDF5_bloscCompressor
+    record_fields:
+      SCAN: I/O Intr
+      ZRVL: '0'
+      ONVL: '1'
+      TWVL: '2'
+      THVL: '3'
+      FRVL: '4'
+      FVVL: '5'
+      ZRST: BloscLZ
+      ONST: LZ4
+      TWST: LZ4HC
+      THST: SNAPPY
+      FRST: ZLIB
+      FVST: ZSTD
+
+  - type: AsynLong
+    name: ChunkSize2
+    description: ChunkSize2
+    index_name: NDFileHDF5_chunkSize2
+    drv_info: HDF5_chunkSize2
+    record_fields:
+      SCAN: I/O Intr
+
   - type: AsynFloat64
     name: IOSpeed
     description: IOSpeed
@@ -136,6 +246,32 @@ parameters:
       SCAN: I/O Intr
       PREC: '1'
       EGU: Mbit/s
+
+  - type: AsynLong
+    name: BloscLevel
+    description: BloscLevel
+    index_name: NDFileHDF5_bloscCompressLevel
+    drv_info: HDF5_bloscCompressLevel
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynLong
+    name: NumFramesChunks
+    description: NumFramesChunks
+    index_name: NDFileHDF5_nFramesChunks
+    drv_info: HDF5_nFramesChunks
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynLong
+    name: BoundaryAlign
+    description: BoundaryAlign
+    index_name: NDFileHDF5_chunkBoundaryAlign
+    drv_info: HDF5_chunkBoundaryAlign
+    initial: '0'
+    record_fields:
+      SCAN: I/O Intr
+      EGU: bytes
 
   - type: AsynWaveform
     name: XMLErrorMsg
@@ -161,71 +297,48 @@ parameters:
       ZNAM: No
       ONAM: Yes
 
-  - type: AsynBinary
-    name: SWMRSupported
-    description: SWMRSupported_RBV
-    index_name: NDFileHDF5_SWMRSupported
-    drv_info: HDF5_SWMRSupported
-    access: R
-    record_fields:
-      SCAN: I/O Intr
-      ZNAM: Not Supported
-      ONAM: Supported
-
-  - type: AsynBinary
-    name: SWMRActive
-    description: SWMRActive_RBV
-    index_name: NDFileHDF5_SWMRRunning
-    drv_info: HDF5_SWMRRunning
-    access: R
-    record_fields:
-      SCAN: I/O Intr
-      ZNAM: Off
-      ONAM: Active
-
   - type: AsynLong
-    name: SWMRCbCounter
-    description: SWMRCbCounter_RBV
-    index_name: NDFileHDF5_SWMRCbCounter
-    drv_info: HDF5_SWMRCbCounter
-    access: R
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynBinary
-    name: ChunkSizeAuto
-    description: ChunkSizeAuto
-    index_name: NDFileHDF5_chunkSizeAuto
-    drv_info: HDF5_chunkSizeAuto
+    name: BoundaryThreshold
+    description: BoundaryThreshold
+    index_name: NDFileHDF5_chunkBoundaryThreshold
+    drv_info: HDF5_chunkBoundaryThreshold
     initial: '1'
     record_fields:
       SCAN: I/O Intr
-      ZNAM: No
-      ONAM: Yes
+      EGU: bytes
 
   - type: AsynLong
-    name: NumRowChunks
-    description: NumRowChunks
-    index_name: NDFileHDF5_nRowChunks
-    drv_info: HDF5_nRowChunks
+    name: NumFramesFlush
+    description: NumFramesFlush
+    index_name: NDFileHDF5_flushNthFrame
+    drv_info: HDF5_flushNthFrame
     record_fields:
       SCAN: I/O Intr
 
-  - type: AsynLong
-    name: NumColChunks
-    description: NumColChunks
-    index_name: NDFileHDF5_nColChunks
-    drv_info: HDF5_nColChunks
+  - type: AsynWaveform
+    name: XMLFileName
+    description: XMLFileName
+    index_name: NDFileHDF5_layoutFilename
+    drv_info: HDF5_layoutFilename
     record_fields:
       SCAN: I/O Intr
+      NELM: $(XMLSIZE=2048)
+      FTVL: CHAR
 
-  - type: AsynLong
-    name: ChunkSize2
-    description: ChunkSize2
-    index_name: NDFileHDF5_chunkSize2
-    drv_info: HDF5_chunkSize2
+  - type: AsynFloat64
+    name: FillValue
+    description: FillValue
+    index_name: NDFileHDF5_fillValue
+    drv_info: HDF5_fillValue
     record_fields:
       SCAN: I/O Intr
+      PREC: '1'
+
+- type: Group
+  name: NDFileHDF5ChunkingFull
+  layout:
+    type: Grid
+  children:
 
   - type: AsynLong
     name: ChunkSize3
@@ -283,41 +396,11 @@ parameters:
     record_fields:
       SCAN: I/O Intr
 
-  - type: AsynLong
-    name: NumFramesChunks
-    description: NumFramesChunks
-    index_name: NDFileHDF5_nFramesChunks
-    drv_info: HDF5_nFramesChunks
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynLong
-    name: NDAttributeChunk
-    description: NDAttributeChunk
-    index_name: NDFileHDF5_NDAttributeChunk
-    drv_info: HDF5_NDAttributeChunk
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynLong
-    name: BoundaryAlign
-    description: BoundaryAlign
-    index_name: NDFileHDF5_chunkBoundaryAlign
-    drv_info: HDF5_chunkBoundaryAlign
-    initial: '0'
-    record_fields:
-      SCAN: I/O Intr
-      EGU: bytes
-
-  - type: AsynLong
-    name: BoundaryThreshold
-    description: BoundaryThreshold
-    index_name: NDFileHDF5_chunkBoundaryThreshold
-    drv_info: HDF5_chunkBoundaryThreshold
-    initial: '1'
-    record_fields:
-      SCAN: I/O Intr
-      EGU: bytes
+- type: Group
+  name: NDFileHDF5ExtraDims
+  layout:
+    type: Grid
+  children:
 
   - type: AsynLong
     name: NumExtraDims
@@ -327,11 +410,30 @@ parameters:
     record_fields:
       SCAN: I/O Intr
 
+  - type: AsynBinary
+    name: DimAttDatasets
+    description: DimAttDatasets
+    index_name: NDFileHDF5_dimAttDatasets
+    drv_info: HDF5_dimAttDatasets
+    record_fields:
+      SCAN: I/O Intr
+      ZNAM: No
+      ONAM: Yes
+
   - type: AsynLong
     name: ExtraDimSizeN
     description: ExtraDimSizeN
     index_name: NDFileHDF5_ExtraDimSizeN
     drv_info: HDF5_extraDimSizeN
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynString
+    name: ExtraDimNameN
+    description: ExtraDimNameN_RBV
+    index_name: NDFileHDF5_extraDimNameN
+    drv_info: HDF5_extraDimNameN
+    access: R
     record_fields:
       SCAN: I/O Intr
 
@@ -344,10 +446,44 @@ parameters:
       SCAN: I/O Intr
 
   - type: AsynLong
+    name: ExtraDimChunkX
+    description: ExtraDimChunkX
+    index_name: NDFileHDF5_extraDimChunkX
+    drv_info: HDF5_extraDimChunkX
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynString
+    name: ExtraDimNameX
+    description: ExtraDimNameX_RBV
+    index_name: NDFileHDF5_extraDimNameX
+    drv_info: HDF5_extraDimNameX
+    access: R
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynLong
     name: ExtraDimSizeY
     description: ExtraDimSizeY
     index_name: NDFileHDF5_ExtraDimSizeY
     drv_info: HDF5_extraDimSizeY
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynLong
+    name: ExtraDimChunkY
+    description: ExtraDimChunkY
+    index_name: NDFileHDF5_extraDimChunkY
+    drv_info: HDF5_extraDimChunkY
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynString
+    name: ExtraDimNameY
+    description: ExtraDimNameY_RBV
+    index_name: NDFileHDF5_extraDimNameY
+    drv_info: HDF5_extraDimNameY
+    access: R
     record_fields:
       SCAN: I/O Intr
 
@@ -360,10 +496,44 @@ parameters:
       SCAN: I/O Intr
 
   - type: AsynLong
+    name: ExtraDimChunk3
+    description: ExtraDimChunk3
+    index_name: NDFileHDF5_extraDimChunk3
+    drv_info: HDF5_extraDimChunk3
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynString
+    name: ExtraDimName3
+    description: ExtraDimName3_RBV
+    index_name: NDFileHDF5_extraDimName3
+    drv_info: HDF5_extraDimName3
+    access: R
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynLong
     name: ExtraDimSize4
     description: ExtraDimSize4
     index_name: NDFileHDF5_ExtraDimSize4
     drv_info: HDF5_extraDimSize4
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynLong
+    name: ExtraDimChunk4
+    description: ExtraDimChunk4
+    index_name: NDFileHDF5_extraDimChunk4
+    drv_info: HDF5_extraDimChunk4
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynString
+    name: ExtraDimName4
+    description: ExtraDimName4_RBV
+    index_name: NDFileHDF5_extraDimName4
+    drv_info: HDF5_extraDimName4
+    access: R
     record_fields:
       SCAN: I/O Intr
 
@@ -376,10 +546,44 @@ parameters:
       SCAN: I/O Intr
 
   - type: AsynLong
+    name: ExtraDimChunk5
+    description: ExtraDimChunk5
+    index_name: NDFileHDF5_extraDimChunk5
+    drv_info: HDF5_extraDimChunk5
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynString
+    name: ExtraDimName5
+    description: ExtraDimName5_RBV
+    index_name: NDFileHDF5_extraDimName5
+    drv_info: HDF5_extraDimName5
+    access: R
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynLong
     name: ExtraDimSize6
     description: ExtraDimSize6
     index_name: NDFileHDF5_ExtraDimSize6
     drv_info: HDF5_extraDimSize6
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynLong
+    name: ExtraDimChunk6
+    description: ExtraDimChunk6
+    index_name: NDFileHDF5_extraDimChunk6
+    drv_info: HDF5_extraDimChunk6
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynString
+    name: ExtraDimName6
+    description: ExtraDimName6_RBV
+    index_name: NDFileHDF5_extraDimName6
+    drv_info: HDF5_extraDimName6
+    access: R
     record_fields:
       SCAN: I/O Intr
 
@@ -392,10 +596,44 @@ parameters:
       SCAN: I/O Intr
 
   - type: AsynLong
+    name: ExtraDimChunk7
+    description: ExtraDimChunk7
+    index_name: NDFileHDF5_extraDimChunk7
+    drv_info: HDF5_extraDimChunk7
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynString
+    name: ExtraDimName7
+    description: ExtraDimName7_RBV
+    index_name: NDFileHDF5_extraDimName7
+    drv_info: HDF5_extraDimName7
+    access: R
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynLong
     name: ExtraDimSize8
     description: ExtraDimSize8
     index_name: NDFileHDF5_ExtraDimSize8
     drv_info: HDF5_extraDimSize8
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynLong
+    name: ExtraDimChunk8
+    description: ExtraDimChunk8
+    index_name: NDFileHDF5_extraDimChunk8
+    drv_info: HDF5_extraDimChunk8
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynString
+    name: ExtraDimName8
+    description: ExtraDimName8_RBV
+    index_name: NDFileHDF5_extraDimName8
+    drv_info: HDF5_extraDimName8
+    access: R
     record_fields:
       SCAN: I/O Intr
 
@@ -407,175 +645,28 @@ parameters:
     record_fields:
       SCAN: I/O Intr
 
-  - type: AsynBinary
-    name: StoreAttr
-    description: StoreAttr
-    index_name: NDFileHDF5_storeAttributes
-    drv_info: HDF5_storeAttributes
-    record_fields:
-      SCAN: I/O Intr
-      ZNAM: No
-      ONAM: Yes
-
-  - type: AsynBinary
-    name: StorePerform
-    description: StorePerform
-    index_name: NDFileHDF5_storePerformance
-    drv_info: HDF5_storePerformance
-    record_fields:
-      SCAN: I/O Intr
-      ZNAM: No
-      ONAM: Yes
-
   - type: AsynLong
-    name: NumFramesFlush
-    description: NumFramesFlush
-    index_name: NDFileHDF5_flushNthFrame
-    drv_info: HDF5_flushNthFrame
+    name: ExtraDimChunk9
+    description: ExtraDimChunk9
+    index_name: NDFileHDF5_extraDimChunk9
+    drv_info: HDF5_extraDimChunk9
     record_fields:
       SCAN: I/O Intr
 
-  - type: AsynMultiBitBinary
-    name: Compression
-    description: Compression
-    index_name: NDFileHDF5_compressionType
-    drv_info: HDF5_compressionType
-    record_fields:
-      SCAN: I/O Intr
-      ZRVL: '0'
-      ONVL: '1'
-      TWVL: '2'
-      THVL: '3'
-      FRVL: '4'
-      FVVL: '5'
-      SXVL: '6'
-      SVVL: '7'
-      ZRST: None
-      ONST: N-bit
-      TWST: szip
-      THST: zlib
-      FRST: Blosc
-      FVST: BSLZ4
-      SXST: LZ4
-      SVST: JPEG
-
-  - type: AsynLong
-    name: NumDataBits
-    description: NumDataBits
-    index_name: NDFileHDF5_nbitsPrecision
-    drv_info: HDF5_nbitsPrecision
-    record_fields:
-      SCAN: I/O Intr
-      EGU: bit
-
-  - type: AsynLong
-    name: DataBitsOffset
-    description: DataBitsOffset
-    index_name: NDFileHDF5_nbitsOffset
-    drv_info: HDF5_nbitsOffset
-    record_fields:
-      SCAN: I/O Intr
-      EGU: bit
-
-  - type: AsynLong
-    name: SZipNumPixels
-    description: SZipNumPixels
-    index_name: NDFileHDF5_szipNumPixels
-    drv_info: HDF5_szipNumPixels
-    record_fields:
-      SCAN: I/O Intr
-      EGU: bit
-
-  - type: AsynLong
-    name: ZLevel
-    description: ZLevel
-    index_name: NDFileHDF5_zCompressLevel
-    drv_info: HDF5_zCompressLevel
+  - type: AsynString
+    name: ExtraDimName9
+    description: ExtraDimName9_RBV
+    index_name: NDFileHDF5_extraDimName9
+    drv_info: HDF5_extraDimName9
+    access: R
     record_fields:
       SCAN: I/O Intr
 
-  - type: AsynMultiBitBinary
-    name: BloscShuffle
-    description: BloscShuffle
-    index_name: NDFileHDF5_bloscShuffleType
-    drv_info: HDF5_bloscShuffleType
-    record_fields:
-      SCAN: I/O Intr
-      ZRVL: '0'
-      ONVL: '1'
-      TWVL: '2'
-      ZRST: None
-      ONST: Byte
-      TWST: Bit
-
-  - type: AsynMultiBitBinary
-    name: BloscCompressor
-    description: BloscCompressor
-    index_name: NDFileHDF5_bloscCompressor
-    drv_info: HDF5_bloscCompressor
-    record_fields:
-      SCAN: I/O Intr
-      ZRVL: '0'
-      ONVL: '1'
-      TWVL: '2'
-      THVL: '3'
-      FRVL: '4'
-      FVVL: '5'
-      ZRST: BloscLZ
-      ONST: LZ4
-      TWST: LZ4HC
-      THST: SNAPPY
-      FRST: ZLIB
-      FVST: ZSTD
-
-  - type: AsynLong
-    name: BloscLevel
-    description: BloscLevel
-    index_name: NDFileHDF5_bloscCompressLevel
-    drv_info: HDF5_bloscCompressLevel
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynLong
-    name: JPEGQuality
-    description: JPEGQuality
-    index_name: NDFileHDF5_jpegQuality
-    drv_info: HDF5_jpegQuality
-    initial: '90'
-    record_fields:
-      SCAN: I/O Intr
-      DRVH: '100'
-      DRVL: '1'
-
-  - type: AsynBinary
-    name: DimAttDatasets
-    description: DimAttDatasets
-    index_name: NDFileHDF5_dimAttDatasets
-    drv_info: HDF5_dimAttDatasets
-    record_fields:
-      SCAN: I/O Intr
-      ZNAM: No
-      ONAM: Yes
-
-  - type: AsynWaveform
-    name: XMLFileName
-    description: XMLFileName
-    index_name: NDFileHDF5_layoutFilename
-    drv_info: HDF5_layoutFilename
-    record_fields:
-      SCAN: I/O Intr
-      NELM: $(XMLSIZE=2048)
-      FTVL: CHAR
-
-  - type: AsynBinary
-    name: SWMRMode
-    description: SWMRMode
-    index_name: NDFileHDF5_SWMRMode
-    drv_info: HDF5_SWMRMode
-    record_fields:
-      SCAN: I/O Intr
-      ZNAM: Off
-      ONAM: On
+- type: Group
+  name: NDFileHDF5Positions
+  layout:
+    type: Grid
+  children:
 
   - type: AsynBinary
     name: PositionMode
@@ -588,90 +679,18 @@ parameters:
       ONAM: On
 
   - type: AsynString
-    name: PosNameDimN
-    description: PosNameDimN
-    index_name: NDFileHDF5_posNameDimN
-    drv_info: HDF5_posNameDimN
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynString
-    name: PosNameDimX
-    description: PosNameDimX
-    index_name: NDFileHDF5_posNameDimX
-    drv_info: HDF5_posNameDimX
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynString
-    name: PosNameDimY
-    description: PosNameDimY
-    index_name: NDFileHDF5_posNameDimY
-    drv_info: HDF5_posNameDimY
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynString
-    name: PosNameDim3
-    description: PosNameDim3
-    index_name: NDFileHDF5_posNameDim3
-    drv_info: HDF5_posNameDim3
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynString
-    name: PosNameDim4
-    description: PosNameDim4
-    index_name: NDFileHDF5_posNameDim4
-    drv_info: HDF5_posNameDim4
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynString
-    name: PosNameDim5
-    description: PosNameDim5
-    index_name: NDFileHDF5_posNameDim5
-    drv_info: HDF5_posNameDim5
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynString
-    name: PosNameDim6
-    description: PosNameDim6
-    index_name: NDFileHDF5_posNameDim6
-    drv_info: HDF5_posNameDim6
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynString
-    name: PosNameDim7
-    description: PosNameDim7
-    index_name: NDFileHDF5_posNameDim7
-    drv_info: HDF5_posNameDim7
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynString
-    name: PosNameDim8
-    description: PosNameDim8
-    index_name: NDFileHDF5_posNameDim8
-    drv_info: HDF5_posNameDim8
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynString
-    name: PosNameDim9
-    description: PosNameDim9
-    index_name: NDFileHDF5_posNameDim9
-    drv_info: HDF5_posNameDim9
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynString
     name: PosIndexDimN
     description: PosIndexDimN
     index_name: NDFileHDF5_posIndexDimN
     drv_info: HDF5_posIndexDimN
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynString
+    name: PosNameDimN
+    description: PosNameDimN
+    index_name: NDFileHDF5_posNameDimN
+    drv_info: HDF5_posNameDimN
     record_fields:
       SCAN: I/O Intr
 
@@ -684,10 +703,26 @@ parameters:
       SCAN: I/O Intr
 
   - type: AsynString
+    name: PosNameDimX
+    description: PosNameDimX
+    index_name: NDFileHDF5_posNameDimX
+    drv_info: HDF5_posNameDimX
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynString
     name: PosIndexDimY
     description: PosIndexDimY
     index_name: NDFileHDF5_posIndexDimY
     drv_info: HDF5_posIndexDimY
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynString
+    name: PosNameDimY
+    description: PosNameDimY
+    index_name: NDFileHDF5_posNameDimY
+    drv_info: HDF5_posNameDimY
     record_fields:
       SCAN: I/O Intr
 
@@ -700,10 +735,26 @@ parameters:
       SCAN: I/O Intr
 
   - type: AsynString
+    name: PosNameDim3
+    description: PosNameDim3
+    index_name: NDFileHDF5_posNameDim3
+    drv_info: HDF5_posNameDim3
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynString
     name: PosIndexDim4
     description: PosIndexDim4
     index_name: NDFileHDF5_posIndexDim4
     drv_info: HDF5_posIndexDim4
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynString
+    name: PosNameDim4
+    description: PosNameDim4
+    index_name: NDFileHDF5_posNameDim4
+    drv_info: HDF5_posNameDim4
     record_fields:
       SCAN: I/O Intr
 
@@ -716,10 +767,26 @@ parameters:
       SCAN: I/O Intr
 
   - type: AsynString
+    name: PosNameDim5
+    description: PosNameDim5
+    index_name: NDFileHDF5_posNameDim5
+    drv_info: HDF5_posNameDim5
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynString
     name: PosIndexDim6
     description: PosIndexDim6
     index_name: NDFileHDF5_posIndexDim6
     drv_info: HDF5_posIndexDim6
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynString
+    name: PosNameDim6
+    description: PosNameDim6
+    index_name: NDFileHDF5_posNameDim6
+    drv_info: HDF5_posNameDim6
     record_fields:
       SCAN: I/O Intr
 
@@ -732,10 +799,26 @@ parameters:
       SCAN: I/O Intr
 
   - type: AsynString
+    name: PosNameDim7
+    description: PosNameDim7
+    index_name: NDFileHDF5_posNameDim7
+    drv_info: HDF5_posNameDim7
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynString
     name: PosIndexDim8
     description: PosIndexDim8
     index_name: NDFileHDF5_posIndexDim8
     drv_info: HDF5_posIndexDim8
+    record_fields:
+      SCAN: I/O Intr
+
+  - type: AsynString
+    name: PosNameDim8
+    description: PosNameDim8
+    index_name: NDFileHDF5_posNameDim8
+    drv_info: HDF5_posNameDim8
     record_fields:
       SCAN: I/O Intr
 
@@ -747,91 +830,32 @@ parameters:
     record_fields:
       SCAN: I/O Intr
 
-  - type: AsynFloat64
-    name: FillValue
-    description: FillValue
-    index_name: NDFileHDF5_fillValue
-    drv_info: HDF5_fillValue
+  - type: AsynString
+    name: PosNameDim9
+    description: PosNameDim9
+    index_name: NDFileHDF5_posNameDim9
+    drv_info: HDF5_posNameDim9
     record_fields:
       SCAN: I/O Intr
-      PREC: '1'
+
+- type: Group
+  name: NDFileHDF5Misc
+  layout:
+    type: Grid
+  children:
+
+  - type: AsynLong
+    name: NDAttributeChunk
+    description: NDAttributeChunk
+    index_name: NDFileHDF5_NDAttributeChunk
+    drv_info: HDF5_NDAttributeChunk
+    record_fields:
+      SCAN: I/O Intr
 
   - type: AsynLong
     name: ExtraDimChunkN
     description: ExtraDimChunkN
     index_name: NDFileHDF5_extraDimChunkN
     drv_info: HDF5_extraDimChunkN
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynLong
-    name: ExtraDimChunkX
-    description: ExtraDimChunkX
-    index_name: NDFileHDF5_extraDimChunkX
-    drv_info: HDF5_extraDimChunkX
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynLong
-    name: ExtraDimChunkY
-    description: ExtraDimChunkY
-    index_name: NDFileHDF5_extraDimChunkY
-    drv_info: HDF5_extraDimChunkY
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynLong
-    name: ExtraDimChunk3
-    description: ExtraDimChunk3
-    index_name: NDFileHDF5_extraDimChunk3
-    drv_info: HDF5_extraDimChunk3
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynLong
-    name: ExtraDimChunk4
-    description: ExtraDimChunk4
-    index_name: NDFileHDF5_extraDimChunk4
-    drv_info: HDF5_extraDimChunk4
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynLong
-    name: ExtraDimChunk5
-    description: ExtraDimChunk5
-    index_name: NDFileHDF5_extraDimChunk5
-    drv_info: HDF5_extraDimChunk5
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynLong
-    name: ExtraDimChunk6
-    description: ExtraDimChunk6
-    index_name: NDFileHDF5_extraDimChunk6
-    drv_info: HDF5_extraDimChunk6
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynLong
-    name: ExtraDimChunk7
-    description: ExtraDimChunk7
-    index_name: NDFileHDF5_extraDimChunk7
-    drv_info: HDF5_extraDimChunk7
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynLong
-    name: ExtraDimChunk8
-    description: ExtraDimChunk8
-    index_name: NDFileHDF5_extraDimChunk8
-    drv_info: HDF5_extraDimChunk8
-    record_fields:
-      SCAN: I/O Intr
-
-  - type: AsynLong
-    name: ExtraDimChunk9
-    description: ExtraDimChunk9
-    index_name: NDFileHDF5_extraDimChunk9
-    drv_info: HDF5_extraDimChunk9
     record_fields:
       SCAN: I/O Intr
