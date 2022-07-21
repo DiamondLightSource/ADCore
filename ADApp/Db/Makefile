@@ -22,7 +22,7 @@ DB += NDPluginFileParameters.template
 DB += NDFileHDF5Parameters.template
 
 DB += $(patsubst ../%, %, $(wildcard ../*.template))
-DB += $(patsubst ../%, %, $(wildcard ../*.req))
+#DB += $(patsubst ../%, %, $(wildcard ../*.req))
 DB += $(patsubst ../%, %, $(wildcard ../*.substitutions))
 
 #----------------------------------------------------
