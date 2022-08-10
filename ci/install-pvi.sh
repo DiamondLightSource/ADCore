@@ -23,3 +23,5 @@ echo "BIN_PVI=`pwd`/external/pvi-venv/bin/pvi" >> configure/RELEASE.local
 
 # Make sure yaml files are newer than source files after checkout
 touch pvi/*
+ls -l pvi/
+ls -l ADApp/ADSrc/

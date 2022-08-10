@@ -25,6 +25,8 @@ DB += $(patsubst ../%, %, $(wildcard ../*.template))
 #DB += $(patsubst ../%, %, $(wildcard ../*.req))
 DB += $(patsubst ../%, %, $(wildcard ../*.substitutions))
 
+$(info ${DB})
+
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add
 # <anyname>_template = <templatename>

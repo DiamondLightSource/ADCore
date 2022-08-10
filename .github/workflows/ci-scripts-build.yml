@@ -17,6 +17,8 @@ env:
   APT: re2c
   CHOCO: re2c
   BREW: re2c
+  PARALLEL_MAKE: 1
+  EXTRA: "--debug=vm"
 
 jobs:
   build-linux:
