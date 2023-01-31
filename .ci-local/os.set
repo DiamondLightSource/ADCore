@@ -18,5 +18,5 @@ NT_REPOOWNER=epics-base
 PVDATABASE_REPONAME=pvDatabaseCPP
 PVDATABASE_REPOOWNER=epics-base
 
-ASYN_REPOOWNER=epics-modules
+ASYN_REPOOWNER=dls-controls
 ASYN_HOOK=.ci-local/asyn-config.py
