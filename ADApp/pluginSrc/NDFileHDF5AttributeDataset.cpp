@@ -10,6 +10,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <epicsMath.h>
+#include <algorithm>
 
 #define MAX_ATTRIBUTE_STRING_SIZE 256
 
@@ -35,7 +36,11 @@ NDFileHDF5AttributeDataset::NDFileHDF5AttributeDataset(hid_t file, const std::st
   rank_(0),
   nextRecord_(0),
   extraDimensions_(0),
-  whenToSave_(hdf5::OnFrame)
+  whenToSave_(hdf5::OnFrame),
+  attributeBatchCount_(0),
+  lastOffset_(NULL),
+  offsetDiff_(NULL),
+  newOffset_(NULL)
 {
   //printf("Constructor called for %s\n", name.c_str());
   // Allocate enough memory for the fill value to accept any data type
@@ -52,6 +57,10 @@ NDFileHDF5AttributeDataset::~NDFileHDF5AttributeDataset()
   if (this->dims_        != NULL) free(this->dims_);
   if (this->offset_      != NULL) free(this->offset_);
   if (this->elementSize_ != NULL) free(this->elementSize_);
+  if (this->lastOffset_  != NULL) free(this->lastOffset_);
+  if (this->offsetDiff_  != NULL) free(this->offsetDiff_);
+  if (this->newOffset_   != NULL) free(this->newOffset_);
+
 }
 
 void NDFileHDF5AttributeDataset::setDsetName(const std::string& dsetName)
@@ -133,37 +142,73 @@ asynStatus NDFileHDF5AttributeDataset::createHDF5Dataset()
 asynStatus NDFileHDF5AttributeDataset::writeAttributeDataset(hdf5::When_t whenToSave, NDAttribute *ndAttr, int flush)
 {
   asynStatus status = asynSuccess;
-  char * stackbuf[MAX_ATTRIBUTE_STRING_SIZE];
-  void* pDatavalue = stackbuf;
+  int offsetChangeMag = 0;
+  int write = 0;
   int ret;
   //check if the attribute is meant to be saved at this time
   if (whenToSave_ == whenToSave) {
     // Extend the dataset as required to store the data
     extendDataSet();
+    // A write should be made when there is an increment of more than 1,
+    // and if the dimension of the increment of 1 is different to the last write
+    for (int i=extraDimensions_ - 1; i>=0; --i)
+    {
+      newOffset_[i] = offset_[i];
 
+      // When attributeBatchCount_ is 1 there has been value added to the store,
+      // so the difference between the two is taken to be the compaison value
+      if (attributeBatchCount_ == 1){
+        offsetDiff_[i] = offset_[i] - lastOffset_[i];
+        offsetChangeMag += offset_[i] - lastOffset_[i];
+      }
+      // If the offset change does not match the comparison value, a write should me made
+      else if (attributeBatchCount_ > 1) {
+        offsetChangeMag += offset_[i] - lastOffset_[i];
+        if ((offset_[i] - lastOffset_[i]) != offsetDiff_[i])
+          write = 1;
+      }
+    }
+    if (offsetChangeMag > 1){
+      write =1;
+    }
     // find the data based on datatype
-    ret = ndAttr->getValue(ndAttr->getDataType(), pDatavalue, MAX_ATTRIBUTE_STRING_SIZE);
-    if (ret == ND_ERROR) {
-      memset(pDatavalue, 0, MAX_ATTRIBUTE_STRING_SIZE);
+    // If write is 1 the dataset should be written before the new value is added to the store as the new value
+    // does not fit within the batch
+    if (write == 1){
+      writeAttributeDatasetBatch(flush, write);
+      // As different datatypes require different size memory allocations, the size of a value has been altered
+      // to 64 bit to match the size of the store. A second store has been created to handle strings.
+      if (ndAttr->getDataType() != NDAttrString)
+        ret = ndAttr->getValue(NDAttrFloat64, pDataValueStore_[attributeBatchCount_], MAX_ATTRIBUTE_STRING_SIZE);
+      else{
+        ret = ndAttr->getValue(NDAttrString, pStringDataValueStore_[attributeBatchCount_], MAX_ATTRIBUTE_STRING_SIZE);
+      }
+      if (ret == ND_ERROR) {
+        memset(pDataValueStore_[attributeBatchCount_], 0, MAX_ATTRIBUTE_STRING_SIZE);
+      }
+      for (int i=extraDimensions_ - 1; i>=0; --i){
+        offset_[i] = newOffset_[i];
+        lastOffset_[i] = newOffset_[i];
+      }
+      attributeBatchCount_++;
     }
-    // Work with HDF5 library to select a suitable hyperslab (one element) and write the new data to it
-    H5Dset_extent(dataset_, dims_);
-    filespace_ = H5Dget_space(dataset_);
+    else{
+      for (int i=extraDimensions_ - 1; i>=0; --i)
+        lastOffset_[i] = offset_[i];
+      if (ndAttr->getDataType() != NDAttrString)
+        ret = ndAttr->getValue(NDAttrFloat64, pDataValueStore_[attributeBatchCount_], MAX_ATTRIBUTE_STRING_SIZE);
+      else{
+        ret = ndAttr->getValue(NDAttrString, pStringDataValueStore_[attributeBatchCount_], MAX_ATTRIBUTE_STRING_SIZE);
+      }
+      if (ret == ND_ERROR) {
+        memset(pDataValueStore_[attributeBatchCount_], 0, MAX_ATTRIBUTE_STRING_SIZE);
+      }
+      attributeBatchCount_++;
+      writeAttributeDatasetBatch(flush, write);
+      for (int i=extraDimensions_ - 1; i>=0; --i)
+        offset_[i]=lastOffset_[i];
 
-    // Select the hyperslab
-    H5Sselect_hyperslab(filespace_, H5S_SELECT_SET, offset_, NULL, elementSize_, NULL);
-
-    // Write the data to the hyperslab if data is defined
-    if (!isUndefined_) {
-       H5Dwrite(dataset_, datatype_, memspace_, filespace_, H5P_DEFAULT, pDatavalue);
     }
-
-    // Check if we are being asked to flush
-    if (flush == 1){
-      status = this->flushDataset();
-    }
-
-    H5Sclose(filespace_);
     nextRecord_++;
   }
 
@@ -173,9 +218,10 @@ asynStatus NDFileHDF5AttributeDataset::writeAttributeDataset(hdf5::When_t whenTo
 asynStatus NDFileHDF5AttributeDataset::writeAttributeDataset(hdf5::When_t whenToSave, hsize_t *offsets, NDAttribute *ndAttr, int flush, int indexed)
 {
   asynStatus status = asynSuccess;
-  char * stackbuf[MAX_ATTRIBUTE_STRING_SIZE];
-  void* pDatavalue = stackbuf;
   int ret;
+  int offsetChangeMag = 0;
+  int write = 0;
+
   //check if the attribute is meant to be saved at this time
   if (whenToSave_ == whenToSave) {
     // Extend the dataset as required to store the data
@@ -184,37 +230,114 @@ asynStatus NDFileHDF5AttributeDataset::writeAttributeDataset(hdf5::When_t whenTo
     } else {
       extendIndexDataSet(offsets[indexed]);
     }
+    // A write should be made when there is an increment of more than 1,
+    // and if the dimension of the increment of 1 is different to the last write
+    for (int i=extraDimensions_ - 1; i>=0; --i)
+    {
+      newOffset_[i] = offset_[i];
+
+      // When attributeBatchCount_ is 1 there has been value added to the store,
+      // so the difference between the two is taken to be the compaison value
+      if (attributeBatchCount_ == 1){
+        offsetDiff_[i] = offset_[i] - lastOffset_[i];
+        offsetChangeMag += offset_[i] - lastOffset_[i];
+      }
+      // If the offset change does not match the comparison value, a write should me made
+      else if (attributeBatchCount_ > 1) {
+        offsetChangeMag += offset_[i] - lastOffset_[i];
+        if ((offset_[i] - lastOffset_[i]) != offsetDiff_[i])
+          write = 1;
+      }
+    }
+    if (offsetChangeMag > 1){
+      write =1;
+    }
     // find the data based on datatype
-    ret = ndAttr->getValue(ndAttr->getDataType(), pDatavalue, MAX_ATTRIBUTE_STRING_SIZE);
-    if (ret == ND_ERROR) {
-      memset(pDatavalue, 0, MAX_ATTRIBUTE_STRING_SIZE);
+    // If write is 1 the dataset should be written before the new value is added to the store as the new value
+    // does not fit within the batch
+    if (write == 1){
+      writeAttributeDatasetBatch(flush, write);
+      // As different datatypes require different size memory allocations, the size of a value has been altered
+      // to 64 bit to match the size of the store. A second store has been created to handle strings.
+      if (ndAttr->getDataType() != NDAttrString)
+        ret = ndAttr->getValue(NDAttrFloat64, pDataValueStore_[attributeBatchCount_], MAX_ATTRIBUTE_STRING_SIZE);
+      else{
+        ret = ndAttr->getValue(NDAttrString, pStringDataValueStore_[attributeBatchCount_], MAX_ATTRIBUTE_STRING_SIZE);
+      }
+      if (ret == ND_ERROR) {
+        memset(pDataValueStore_[attributeBatchCount_], 0, MAX_ATTRIBUTE_STRING_SIZE);
+      }
+      for (int i=extraDimensions_ - 1; i>=0; --i)
+        lastOffset_[i] = newOffset_[i];
+      attributeBatchCount_++;
+    }
+    else{
+      for (int i=extraDimensions_ - 1; i>=0; --i)
+        lastOffset_[i] = offset_[i];
+      if (ndAttr->getDataType() != NDAttrString)
+        ret = ndAttr->getValue(NDAttrFloat64, pDataValueStore_[attributeBatchCount_], MAX_ATTRIBUTE_STRING_SIZE);
+      else{
+        ret = ndAttr->getValue(NDAttrString, pStringDataValueStore_[attributeBatchCount_], MAX_ATTRIBUTE_STRING_SIZE);
+      }
+      if (ret == ND_ERROR) {
+        memset(pDataValueStore_[attributeBatchCount_], 0, MAX_ATTRIBUTE_STRING_SIZE);
+      }
+      attributeBatchCount_++;
+      writeAttributeDatasetBatch(flush, write);
+    }
+    nextRecord_++;
+  }
+
+
+  return status;
+}
+
+// This function is used to write the attributes from the store
+asynStatus NDFileHDF5AttributeDataset::writeAttributeDatasetBatch(int flush, int write)
+{
+  asynStatus status = asynSuccess;
+  // Check if it is being asked to flush or if the dataStore has hit its maximum size
+  if ((flush == 1 || attributeBatchCount_ == MAX_BATCH_SIZE || write ==1) && (!isUndefined_)){
+    for (int i = 0; i<(extraDimensions_); i++){
+      if (offsetDiff_[i] == 0){
+        if (lastOffset_[i] < lastOffset_[i] - ((offsetDiff_[i]*attributeBatchCount_) -1)){
+          offset_[i] = lastOffset_[i];
+        } else
+          offset_[i] = lastOffset_[i] - ((offsetDiff_[i]*attributeBatchCount_) -1 );
+        elementSize_[i] = 1;
+      } else {
+          if (lastOffset_[i] < lastOffset_[i] - ((offsetDiff_[i]*attributeBatchCount_) -1)){
+          offset_[i] = lastOffset_[i];
+          // If the data written is reversed due to the pos plugin, reverse the data in the store
+          std::reverse(pDataValueStore_[0], pDataValueStore_[attributeBatchCount_]);
+        } else
+          offset_[i] = lastOffset_[i] - ((offsetDiff_[i]*attributeBatchCount_) -1 );
+        elementSize_[i] = abs(offsetDiff_[i])*attributeBatchCount_;
+      }
     }
     // Work with HDF5 library to select a suitable hyperslab (one element) and write the new data to it
     H5Dset_extent(dataset_, dims_);
     filespace_ = H5Dget_space(dataset_);
-
+    memspace_ = H5Screate_simple(rank_, elementSize_, NULL);
     // Select the hyperslab
     H5Sselect_hyperslab(filespace_, H5S_SELECT_SET, offset_, NULL, elementSize_, NULL);
-
-    // Write the data to the hyperslab.
-    H5Dwrite(dataset_, datatype_, memspace_, filespace_, H5P_DEFAULT, pDatavalue);
-
-
-    // Check if we are being asked to flush
-    if (flush == 1){
-      status = this->flushDataset();
+    if (type_ == NDAttrString){
+      H5Dwrite(dataset_, datatype_, memspace_, filespace_, H5P_DEFAULT, pStringDataValueStore_);
     }
-
+    else
+      H5Dwrite(dataset_, H5T_NATIVE_DOUBLE, memspace_, filespace_, H5P_DEFAULT, pDataValueStore_);
+    if(flush ==1)
+      status = this->flushDataset();
     H5Sclose(filespace_);
-    nextRecord_++;
+    attributeBatchCount_ = 0;
   }
-
   return status;
 }
 
 asynStatus NDFileHDF5AttributeDataset::closeAttributeDataset()
 {
   //printf("close called for %s\n", name_.c_str());
+  writeAttributeDatasetBatch(1, 1);
   H5Dclose(dataset_);
   H5Sclose(memspace_);
   H5Sclose(dataspace_);
@@ -235,15 +358,28 @@ asynStatus NDFileHDF5AttributeDataset::configureDims(int user_chunking)
   if (this->dims_        != NULL) free(this->dims_);
   if (this->offset_      != NULL) free(this->offset_);
   if (this->elementSize_ != NULL) free(this->elementSize_);
+  if (this->lastOffset_  != NULL) free(this->lastOffset_);
+  if (this->offsetDiff_  != NULL) free(this->offsetDiff_);
+  if (this->newOffset_   != NULL) free(this->newOffset_);
+
 
   this->maxdims_      = (hsize_t*)calloc(ndims, sizeof(hsize_t));
   this->chunk_        = (hsize_t*)calloc(ndims, sizeof(hsize_t));
   this->dims_         = (hsize_t*)calloc(ndims, sizeof(hsize_t));
   this->offset_       = (hsize_t*)calloc(ndims, sizeof(hsize_t));
   this->elementSize_  = (hsize_t*)calloc(ndims, sizeof(hsize_t));
+  this->lastOffset_   = (hsize_t*)calloc(ndims, sizeof(hsize_t));
+  this->offsetDiff_   = (hsize_t*)calloc(ndims, sizeof(hsize_t));
+  this->newOffset_    = (hsize_t*)calloc(ndims, sizeof(hsize_t));
 
   offset_[0] = 0;
   offset_[1] = 0;
+  lastOffset_[0] = 0;
+  lastOffset_[1] = 0;
+  offsetDiff_[0] = 0;
+  offsetDiff_[1] = 0;
+  newOffset_[0] = 0;
+  newOffset_[1] = 0;
 
   maxdims_[0] = H5S_UNLIMITED;
   maxdims_[1] = H5S_UNLIMITED;
@@ -280,6 +416,9 @@ asynStatus NDFileHDF5AttributeDataset::configureDimsFromDataset(bool multiframe,
     if (this->offset_      != NULL) free(this->offset_);
     if (this->virtualdims_ != NULL) free(this->virtualdims_);
     if (this->elementSize_ != NULL) free(this->elementSize_);
+    if (this->lastOffset_  != NULL) free(this->lastOffset_);
+    if (this->offsetDiff_  != NULL) free(this->offsetDiff_);
+    if (this->newOffset_   != NULL) free(this->newOffset_);
 
     this->maxdims_       = (hsize_t*)calloc(ndims,     sizeof(hsize_t));
     this->chunk_         = (hsize_t*)calloc(ndims,     sizeof(hsize_t));
@@ -287,6 +426,9 @@ asynStatus NDFileHDF5AttributeDataset::configureDimsFromDataset(bool multiframe,
     this->offset_        = (hsize_t*)calloc(ndims,     sizeof(hsize_t));
     this->virtualdims_   = (hsize_t*)calloc(extradims, sizeof(hsize_t));
     this->elementSize_   = (hsize_t*)calloc(ndims,     sizeof(hsize_t));
+    this->lastOffset_    = (hsize_t*)calloc(ndims,     sizeof(hsize_t));
+    this->offsetDiff_    = (hsize_t*)calloc(ndims,     sizeof(hsize_t));
+    this->newOffset_     = (hsize_t*)calloc(ndims,     sizeof(hsize_t));
   }
 
   if (multiframe){
@@ -299,6 +441,9 @@ asynStatus NDFileHDF5AttributeDataset::configureDimsFromDataset(bool multiframe,
       this->dims_[i]        = 1;
       this->offset_[i]      = 0; // because we increment offset *before* each write we need to start at -1
       this->virtualdims_[i] = extra_dims[i];
+      this->lastOffset_[i]  = 0;
+      this->offsetDiff_[i]  = 0;
+      this->newOffset_[i]   = 0;
     }
   }
 
@@ -314,6 +459,12 @@ asynStatus NDFileHDF5AttributeDataset::configureDimsFromDataset(bool multiframe,
   dims_[extradims+1]        = 1;
   offset_[extradims]        = 0;
   offset_[extradims+1]      = 0;
+  lastOffset_[extradims]    = 0;
+  lastOffset_[extradims+1]  = 0;
+  offsetDiff_[extradims]    = 0;
+  offsetDiff_[extradims+1]  = 0;
+  newOffset_[extradims]     = 0;
+  newOffset_[extradims+1]   = 0;
 
   return status;
 }
@@ -435,6 +586,7 @@ void NDFileHDF5AttributeDataset::extendDataSet(hsize_t *offsets)
       if (this->dims_[index] < offsets[index]+1){
         // Increase the dimension to accomodate the new position
         this->dims_[index] = offsets[index]+1;
+
       }
       // Always set the offset position even if we don't increase the dims
       this->offset_[index] = offsets[index];
